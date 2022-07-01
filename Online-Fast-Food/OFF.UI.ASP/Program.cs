@@ -1,11 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using OFF.Domain.DI;
+using OFF.Infrastructure.EntityFramework.Entities;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<OFFDbContext>(x => x.UseSqlServer(@"Server=(LocalDB)\MSSQLLocalDB;Database=OFFDb;Trusted_Connection=True;"));
+builder.Services.AddDependency(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
