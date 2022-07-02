@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using OFF.Domain.Common.Exceptions.User;
 using OFF.Domain.Common.Models.User;
+using OFF.Domain.Common.Utils;
 using OFF.Domain.Interfaces.Infrastructure;
 using OFF.Infrastructure.EntityFramework.Entities;
 
@@ -10,10 +11,26 @@ public class AccountSrv : IAccountSrv
 {
     private readonly OFFDbContext _dbContext;
     private readonly IPasswordHasher<User> _passwordHasher;
-    public AccountSrv(OFFDbContext dbContext, IPasswordHasher<User> passwordHasher)
+    private readonly IJwtUtils _jwtUtils;
+    public AccountSrv(OFFDbContext dbContext, IPasswordHasher<User> passwordHasher, IJwtUtils jwtUtils)
     {
         _dbContext=dbContext;
         _passwordHasher=passwordHasher;
+        _jwtUtils=jwtUtils;
+    }
+
+    public UserAuthorizeDTO GetById(int? id)
+    {
+        var user = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+        var userAuth = new UserAuthorizeDTO
+        {
+            Id = user.Id,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            PasswordHash = user.PasswordHash
+        };
+        return userAuth;
     }
 
     public UserDTO Register(RegisterDTO registerDTO)
@@ -34,8 +51,15 @@ public class AccountSrv : IAccountSrv
         _dbContext.Users.Add(newUser);
         _dbContext.SaveChanges();
 
-        //var userAuth = _userMapper.Map(newUser);
-        //var token = _jwtUtils.GenerateJWT(userAuth);
+        var userAuth = new UserAuthorizeDTO
+        {
+            Id = newUser.Id,
+            Email = newUser.Email,
+            FirstName = newUser.FirstName,
+            LastName = newUser.LastName,
+            PasswordHash = newUser.PasswordHash
+        };
+        var token = _jwtUtils.GenerateJWT(userAuth);
 
         var newUserDTO = new UserDTO
         {
@@ -43,7 +67,7 @@ public class AccountSrv : IAccountSrv
             FirstName=newUser.FirstName,
             LastName=newUser.LastName,
             Email = newUser.Email,
-            //Token = token
+            Token = token
         };
         return newUserDTO;
     }

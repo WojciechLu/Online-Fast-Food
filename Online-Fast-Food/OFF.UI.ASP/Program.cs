@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OFF.Domain.DI;
+using OFF.Domain.Facades.Middleware;
 using OFF.Infrastructure.EntityFramework;
 using OFF.Infrastructure.EntityFramework.Entities;
 
@@ -34,6 +35,8 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 
