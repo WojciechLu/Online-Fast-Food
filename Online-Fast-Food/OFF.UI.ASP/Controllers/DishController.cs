@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OFF.Domain.Common.Models.Dish;
+using OFF.Domain.Interfaces.Infrastructure;
 
 namespace Online_Fast_Food.UI.ASP.Controllers;
 
@@ -7,5 +9,16 @@ namespace Online_Fast_Food.UI.ASP.Controllers;
 
 public class DishController : ControllerBase
 {
+    private readonly IDishSrv _dishSrv;
+    public DishController(IDishSrv dishSrv)
+    {
+        _dishSrv=dishSrv;
+    }
+
+    [HttpPost("addDish")]
+    public ActionResult AddDish([FromForm] AddDishDTO addDishDTO)
+    {
+        return Ok(_dishSrv.AddDish(addDishDTO));
+    }
 
 }

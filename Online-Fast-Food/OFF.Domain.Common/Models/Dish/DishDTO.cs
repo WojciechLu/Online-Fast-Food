@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OFF.Infrastructure.EntityFramework.Entities;
+namespace OFF.Domain.Common.Models.Dish;
 
-public class Dish
+public class DishDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string? Description { get; set; }
+    public string Description { get; set; }
     public byte[] ProductImage { get; set; }
     public float Price { get; set; }
-    public ICollection<DishCategory> Categories { get; set; } 
+    public ICollection<String> Categories { get; set; }
 }

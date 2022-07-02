@@ -30,12 +30,17 @@ public class OFFDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(x => x.PasswordHash)
             .IsRequired();
+
         modelBuilder.Entity<Dish>()
             .Property(x => x.Name)
             .IsRequired();
         modelBuilder.Entity<Dish>()
             .Property(x => x.Price)
             .IsRequired();
+        //modelBuilder.Entity<Dish>()
+        //    .Property(x => x.Description)
+        //    .IsRequired(false);
+
         modelBuilder.Entity<DishCategory>()
             .Property(x => x.Name)
             .IsRequired();
