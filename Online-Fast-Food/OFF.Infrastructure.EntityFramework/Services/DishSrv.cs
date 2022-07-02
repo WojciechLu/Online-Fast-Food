@@ -1,7 +1,10 @@
-﻿using OFF.Domain.Common.Exceptions.Dish;
+﻿using Microsoft.EntityFrameworkCore;
+using OFF.Domain.Common.Exceptions.Dish;
+using OFF.Domain.Common.Models;
 using OFF.Domain.Common.Models.Dish;
 using OFF.Domain.Interfaces.Infrastructure;
 using OFF.Infrastructure.EntityFramework.Entities;
+using OFF.Infrastructure.EntityFramework.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +16,19 @@ namespace OFF.Infrastructure.EntityFramework.Services;
 public class DishSrv : IDishSrv
 {
     private readonly OFFDbContext _dbContext;
+    private readonly DishMapper _dishMapper;
 
-    public DishSrv(OFFDbContext dbContext)
+    public DishSrv(OFFDbContext dbContext, DishMapper dishMapper)
     {
         _dbContext=dbContext;
+        _dishMapper=dishMapper;
     }
 
     public DishDTO AddDish(AddDishDTO addDishDTO)
     {
         var isNameTaken = _dbContext.Dishes.FirstOrDefault(d => d.Name == addDishDTO.Name);
         if (isNameTaken != null) throw new NameTakenException();
-        var dishToAdd = new Dish();
-        var dishDTO = new DishDTO();
+        var dishToAdd = _dishMapper.Map(addDishDTO);
 
         //uploading image
         if (addDishDTO.ProductImage != null)
@@ -46,23 +50,49 @@ public class DishSrv : IDishSrv
             dishToAdd.ProductImage = image;
         }
 
-        dishToAdd.Name = addDishDTO.Name;
-        dishToAdd.Description = addDishDTO.Description;
-        dishToAdd.Price = addDishDTO.Price;
-
         _dbContext.Dishes.Add(dishToAdd);
         _dbContext.SaveChanges();
 
         AddCategory(addDishDTO.CategoriesName, dishToAdd.Id);
 
-        dishDTO.Id = dishToAdd.Id;
-        dishDTO.Name = dishToAdd.Name;
-        dishDTO.Description = dishToAdd.Description;
-        dishDTO.ProductImage = dishToAdd.ProductImage;
-        dishDTO.Price = dishToAdd.Price;
-        dishDTO.Categories = addDishDTO.CategoriesName;
 
+        var dishDTO = _dishMapper.Map(dishToAdd, addDishDTO.CategoriesName);
         return dishDTO;
+    }
+
+    public DishDTO EditDish(EditDishDTO editDishDTO)
+    {
+        var dishToEdit = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == editDishDTO.Id);
+        if (editDishDTO.Description != null) dishToEdit.Description = editDishDTO.Description;
+        if(editDishDTO.ProductImage != null)
+        {
+            if (editDishDTO.ProductImage.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    editDishDTO.ProductImage.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    dishToEdit.ProductImage = fileBytes;
+                }
+            }
+        }
+        if (editDishDTO.Price != null) dishToEdit.Price = editDishDTO.Price.Value;
+        if(editDishDTO.Categories != null)
+        {
+            //clearing
+            foreach(var category in dishToEdit.Categories)
+            {
+                category.Dishes.Remove(dishToEdit);
+            }
+            dishToEdit.Categories.Clear();
+
+            //adding new
+            AddCategory(editDishDTO.Categories, editDishDTO.Id);
+        }
+        _dbContext.SaveChanges();
+
+        DishDTO editedDishDTO = _dishMapper.Map(dishToEdit);
+        return editedDishDTO;
     }
 
     private void AddCategory(ICollection<String> Categories, int DishId)
