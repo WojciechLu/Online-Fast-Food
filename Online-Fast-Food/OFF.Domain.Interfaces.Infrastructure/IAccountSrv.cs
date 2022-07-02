@@ -9,6 +9,7 @@ namespace OFF.Domain.Interfaces.Infrastructure;
 
 public interface IAccountSrv
 {
-    UserDTO Register(RegisterDTO register);
+    UserDTO Register(RegisterDTO registerDTO);
     UserAuthorizeDTO GetById(int? id);
+    UserDTO Login(LoginDTO loginDTO);
 }

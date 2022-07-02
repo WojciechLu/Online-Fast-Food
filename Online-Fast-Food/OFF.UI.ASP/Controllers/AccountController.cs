@@ -20,4 +20,10 @@ public class AccountController : ControllerBase
     {
         return Ok(_accountSrv.Register(registerDTO));
     }
+
+    [HttpPost("login")]
+    public ActionResult LoginUser([FromBody] LoginDTO loginDTO)
+    {
+        return Ok(_accountSrv.Login(loginDTO));
+    }
 }

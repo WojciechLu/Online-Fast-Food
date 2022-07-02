@@ -33,6 +33,36 @@ public class AccountSrv : IAccountSrv
         return userAuth;
     }
 
+    public UserDTO Login(LoginDTO loginDTO)
+    {
+        var user = _dbContext.Users.FirstOrDefault(u => u.Email == loginDTO.Email);
+        if (user == null) throw new InvalidEmailException();
+
+        var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginDTO.Password);
+        if (result == PasswordVerificationResult.Failed) throw new WrongPasswordException();
+
+        var userAuth = new UserAuthorizeDTO
+        {
+            Id=user.Id,
+            Email=user.Email,
+            FirstName=user.FirstName,
+            LastName=user.LastName,
+            PasswordHash=user.PasswordHash
+        };
+        var token = _jwtUtils.GenerateJWT(userAuth);
+
+        var userDTO = new UserDTO
+        {
+            Id = userAuth.Id,
+            Email = userAuth.Email,
+            FirstName=userAuth.FirstName,
+            LastName = userAuth.LastName,
+            Token=token
+        };
+        return userDTO;
+
+    }
+
     public UserDTO Register(RegisterDTO registerDTO)
     {
         var emailInUse = _dbContext.Users.FirstOrDefault(u => u.Email == registerDTO.Email);

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using OFF.Domain.Common.Models.User;
+using OFF.Domain.Common.Utils;
 using OFF.Domain.Facades;
 using OFF.Domain.Interfaces.Facades;
 using OFF.Domain.Interfaces.Infrastructure;
@@ -20,8 +21,9 @@ public static class DependencyInjector
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         serviceCollection.AddDbContext<OFFDbContext>(x => x.UseSqlServer(connectionString));
         serviceCollection.AddScoped<DbSeeder>();
-        serviceCollection.AddScoped<IAccountSrv, AccountSrv>();
         serviceCollection.AddScoped<IAccountFcd, AccountFcd>();
+        serviceCollection.AddScoped<IAccountSrv, AccountSrv>();
+        serviceCollection.AddScoped<IJwtUtils, JwtUtils>();
 
         //JWT
         var authenticationSettings = new AuthenticationSettings();
