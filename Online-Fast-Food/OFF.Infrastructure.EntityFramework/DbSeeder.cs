@@ -19,12 +19,20 @@ public class DbSeeder
     public void Seed()
     {
         if (_dbContext.Database.CanConnect())
+        {
             if (!_dbContext.Roles.Any())
             {
                 var roles = GetRoles();
                 _dbContext.Roles.AddRange(roles);
                 _dbContext.SaveChanges();
             }
+            if (!_dbContext.Categories.Any())
+            {
+                var categories = GetCategories();
+                _dbContext.Categories.AddRange(categories);
+                _dbContext.SaveChanges();
+            }
+        }
     }
 
     private IEnumerable<Role> GetRoles()
@@ -41,5 +49,62 @@ public class DbSeeder
             }
         };
         return roles;
+    }
+
+    private IEnumerable<Category> GetCategories()
+    {
+        var categories = new List<Category>
+        {
+            new()
+            {
+
+                Name = "Vegetarian"
+            },
+            new()
+            {
+                Name = "Vegan"
+            },
+            new()
+            {
+                Name = "Meat"
+            },
+            new()
+            {
+                Name = "Main course"
+            },
+            new()
+            {
+                Name = "Soup"
+            },
+            new()
+            {
+                Name = "Pasta"
+            },
+            new()
+            {
+                Name = "Salad"
+            },
+            new()
+            {
+                Name = "BBQ food"
+            },
+            new()
+            {
+                Name = "Sandwiches"
+            },
+            new()
+            {
+                Name = "Cakes, cookies & pies"
+            },
+            new()
+            {
+                Name = "Snacks"
+            },
+            new()
+            {
+                Name = "Drinks"
+            }
+        };
+        return categories;
     }
 }

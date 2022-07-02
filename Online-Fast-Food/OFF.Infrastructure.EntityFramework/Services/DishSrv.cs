@@ -25,7 +25,8 @@ public class DishSrv : IDishSrv
         if (isNameTaken != null) throw new NameTakenException();
         var dishToAdd = new Dish();
         var dishDTO = new DishDTO();
-        //var categories = _dbContext.DishCategories...
+
+        //uploading image
         if (addDishDTO.ProductImage != null)
         {
             if (addDishDTO.ProductImage.Length > 0)
@@ -48,18 +49,33 @@ public class DishSrv : IDishSrv
         dishToAdd.Name = addDishDTO.Name;
         dishToAdd.Description = addDishDTO.Description;
         dishToAdd.Price = addDishDTO.Price;
-        //dishToAdd.Categories = list
 
         _dbContext.Dishes.Add(dishToAdd);
         _dbContext.SaveChanges();
+
+        AddCategory(addDishDTO.CategoriesName, dishToAdd.Id);
 
         dishDTO.Id = dishToAdd.Id;
         dishDTO.Name = dishToAdd.Name;
         dishDTO.Description = dishToAdd.Description;
         dishDTO.ProductImage = dishToAdd.ProductImage;
         dishDTO.Price = dishToAdd.Price;
-        //dishDTO.Categories = list
+        dishDTO.Categories = addDishDTO.CategoriesName;
 
         return dishDTO;
+    }
+
+    private void AddCategory(ICollection<String> Categories, int DishId)
+    {
+        var dish = _dbContext.Dishes.FirstOrDefault(d => d.Id == DishId);
+        if (dish.Categories == null) dish.Categories = new List<Category>();
+        foreach (var categoryName in Categories)
+        {
+            var i = _dbContext.Categories.FirstOrDefault(c => c.Name == categoryName);
+            if (i.Dishes == null) i.Dishes = new List<Dish>();
+            dish.Categories.Add(i);
+            i.Dishes.Add(dish);
+        }
+        _dbContext.SaveChanges();
     }
 }

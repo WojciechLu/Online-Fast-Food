@@ -13,5 +13,5 @@ public class Dish
     public string? Description { get; set; }
     public byte[] ProductImage { get; set; }
     public float Price { get; set; }
-    public ICollection<DishCategory> Categories { get; set; } 
+    public ICollection<Category> Categories { get; set; } 
 }

@@ -16,5 +16,5 @@ public class AddDishDTO
     public string? Description { get; set; }
     public IFormFile? ProductImage { get; set; }
     [Required] public float Price { get; set; }
-    public ICollection<int>? CategoriesId { get; set; }
+    public ICollection<String>? CategoriesName { get; set; }
 }
