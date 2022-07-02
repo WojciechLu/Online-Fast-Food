@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OFF.Domain.Common\OFF.Domain.Common.csproj" />
+  </ItemGroup>
+
 </Project>

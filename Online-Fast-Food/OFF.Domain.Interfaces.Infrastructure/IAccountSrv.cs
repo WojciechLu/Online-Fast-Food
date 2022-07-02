@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OFF.Domain.Common.Models.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,4 +9,5 @@ namespace OFF.Domain.Interfaces.Infrastructure;
 
 public interface IAccountSrv
 {
+    UserDTO Register(RegisterDTO register);
 }
