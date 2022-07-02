@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OFF.Domain.Facades\OFF.Domain.Facades.csproj" />
+    <ProjectReference Include="..\OFF.Domain.Interfaces.Facades\OFF.Domain.Interfaces.Facades.csproj" />
     <ProjectReference Include="..\OFF.Infrastructure.EntityFramework\OFF.Infrastructure.EntityFramework.csproj" />
   </ItemGroup>
 
