@@ -14,6 +14,7 @@ public class OFFDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Dish> Dishes { get; set; }
+    public DbSet<DishCategory> DishCategories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,6 +35,9 @@ public class OFFDbContext : DbContext
             .IsRequired();
         modelBuilder.Entity<Dish>()
             .Property(x => x.Price)
+            .IsRequired();
+        modelBuilder.Entity<DishCategory>()
+            .Property(x => x.Name)
             .IsRequired();
     }
 
