@@ -14,4 +14,5 @@ public class Dish
     public byte[] ProductImage { get; set; }
     public float Price { get; set; }
     public ICollection<Category> Categories { get; set; } 
+    public ICollection<Order> Ordered { get; set; }
 }
