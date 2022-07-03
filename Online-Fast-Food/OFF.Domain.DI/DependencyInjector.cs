@@ -24,6 +24,7 @@ public static class DependencyInjector
         serviceCollection.AddScoped<DbSeeder>();
         serviceCollection.AddScoped<IAccountFcd, AccountFcd>();
         serviceCollection.AddScoped<IAccountSrv, AccountSrv>();
+        serviceCollection.AddScoped<IOrderSrv, OrderSrv>();
         serviceCollection.AddScoped<IDishSrv, DishSrv>();
         serviceCollection.AddScoped<IJwtUtils, JwtUtils>();
         serviceCollection.AddScoped<DishMapper>();
