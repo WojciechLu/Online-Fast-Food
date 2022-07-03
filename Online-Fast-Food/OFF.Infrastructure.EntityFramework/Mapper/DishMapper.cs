@@ -40,6 +40,21 @@ public class DishMapper
         };
     }
 
+    public DishDTO Map(Dish entity, String category)
+    {
+        var categoryList = new List<String>();
+        categoryList.Add(category);
+        return new DishDTO
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            Description = entity.Description,
+            Price = entity.Price,
+            ProductImage = entity.ProductImage,
+            Categories = categoryList
+        };
+    }
+
     public Dish Map(DishDTO dish, byte[] Image)
     {
         return new Dish

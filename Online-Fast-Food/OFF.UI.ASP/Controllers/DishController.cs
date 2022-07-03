@@ -34,9 +34,15 @@ public class DishController : ControllerBase
     }
 
     [HttpPost("getDishByCategory")]
-    public ActionResult GetDishByCategory([FromBody] GetDishCategoryDTO getDishDTO)
+    public ActionResult GetDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
     {
         return Ok(_dishSrv.GetDishesByCategory(getDishDTO));
+    }
+
+    [HttpPost("getAll")]
+    public ActionResult GetDishes()
+    {
+        return Ok(_dishSrv.GetDishes());
     }
 
 }

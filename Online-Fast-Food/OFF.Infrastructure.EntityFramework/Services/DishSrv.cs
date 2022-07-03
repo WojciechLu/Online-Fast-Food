@@ -101,6 +101,24 @@ public class DishSrv : IDishSrv
         return dishDTO;
     }
 
+    public DishesDTO GetDishes()
+    {
+        var categories = _dbContext.Categories.Include(c => c.Dishes).ToArray();
+
+        var listOfDishes = new DishesDTO();
+        listOfDishes.Dishes = new List<DishDTO>();
+
+        foreach(var category in categories)
+        {
+            foreach(var dish in category.Dishes)
+            {
+                var i = _dishMapper.Map(dish,category.Name);
+                listOfDishes.Dishes.Add(i);
+            }
+        }
+        return listOfDishes;
+    }
+
     public DishesDTO GetDishesByCategory(GetDishCategoryDTO getDishDTO)
     {
         var list = _dbContext.Categories.Include(c => c.Dishes).FirstOrDefault(c => c.Name == getDishDTO.Name).Dishes;
