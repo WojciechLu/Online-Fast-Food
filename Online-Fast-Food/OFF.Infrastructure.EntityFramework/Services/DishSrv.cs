@@ -109,8 +109,8 @@ public class DishSrv : IDishSrv
         listOfDishes.Dishes = new List<DishDTO>();
         foreach (var dish in list)
         {
-            var i = _dishMapper.Map(dish);
-            listOfDishes.Dishes.Add(i);
+            var i = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dish.Id);
+            listOfDishes.Dishes.Add(_dishMapper.Map(i));
         }
         return listOfDishes;
     }
