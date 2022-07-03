@@ -25,7 +25,7 @@ public class OrderMapper
         {
             Customer = user,
             CustomerId = user.Id,
-            Dishes = new List<Dish>(),
+            Dishes = new List<DishOrder>(),
             Completed = false
         };
     }

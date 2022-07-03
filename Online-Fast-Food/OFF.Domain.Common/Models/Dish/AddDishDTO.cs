@@ -12,6 +12,7 @@ namespace OFF.Domain.Common.Models.Dish;
 
 public class AddDishDTO
 {
+    public int AdminId { get; set; }
     [Required] public string Name { get; set; }
     public string? Description { get; set; }
     public IFormFile? ProductImage { get; set; }

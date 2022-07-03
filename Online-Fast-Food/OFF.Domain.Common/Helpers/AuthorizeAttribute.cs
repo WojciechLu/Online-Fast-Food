@@ -36,7 +36,8 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 
         var body = context.HttpContext.Request.PeekBody();
         var customerId = JsonConvert.DeserializeObject<CreateOrderDTO>(body).CustomerId;
-        if (customerId != user?.Id)
+        var adminId = JsonConvert.DeserializeObject<AddDishDTO>(body).AdminId;
+        if (customerId != user?.Id && adminId != user?.Id)
             context.Result = new JsonResult(new { message = "Unauthorized" })
             { StatusCode = StatusCodes.Status401Unauthorized };
     }

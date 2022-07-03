@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace OFF.Domain.Common.Models.Dish;
 
-public class DishIdDTO
+public class AddToOrderDTO
 {
-    public int AdminId { get; set; }
-    public int Id { get; set; }
+    public int CustomerId { get; set; }
+    public int OrderId { get; set; }
+    public int DishId { get; set; }
 }
