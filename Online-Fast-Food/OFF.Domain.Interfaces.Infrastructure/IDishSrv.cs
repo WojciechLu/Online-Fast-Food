@@ -14,4 +14,6 @@ public interface IDishSrv
     DishDTO GetDishById(GetDishIdDTO getDishDTO);
     DishesDTO GetDishesByCategory(GetDishCategoryDTO getDishDTO);
     DishesDTO GetDishes();
+    DishesDTO GetAvaibleDishesByCategory(GetDishCategoryDTO getDishDTO);
+    DishesDTO GetAvaibleDishes();
 }

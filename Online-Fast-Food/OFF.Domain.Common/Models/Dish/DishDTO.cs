@@ -13,5 +13,6 @@ public class DishDTO
     public string Description { get; set; }
     public byte[] ProductImage { get; set; }
     public float Price { get; set; }
+    public bool Avaible { get; set; }
     public ICollection<String> Categories { get; set; }
 }

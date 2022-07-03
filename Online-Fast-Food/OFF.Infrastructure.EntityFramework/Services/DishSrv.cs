@@ -94,6 +94,20 @@ public class DishSrv : IDishSrv
         return editedDishDTO;
     }
 
+    public DishesDTO GetAvaibleDishes()
+    {
+        var list = GetDishes();
+        var newList = AvaibleDishes(list);
+        return newList;
+    }
+
+    public DishesDTO GetAvaibleDishesByCategory(GetDishCategoryDTO getDishDTO)
+    {
+        var list = GetDishesByCategory(getDishDTO);
+        var newList = AvaibleDishes(list);
+        return newList;
+    }
+
     public DishDTO GetDishById(GetDishIdDTO getDishDTO)
     {
         var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == getDishDTO.Id);
@@ -145,5 +159,16 @@ public class DishSrv : IDishSrv
             i.Dishes.Add(dish);
         }
         _dbContext.SaveChanges();
+    }
+
+    private DishesDTO AvaibleDishes(DishesDTO list)
+    {
+        var newList = new DishesDTO();
+        newList.Dishes = new List<DishDTO>();
+        foreach (var dish in list.Dishes)
+        {
+            if (dish.Avaible == true) newList.Dishes.Add(dish);
+        }
+        return newList;
     }
 }

@@ -19,6 +19,7 @@ public class DishMapper
             Description = entity.Description,
             Price = entity.Price,
             ProductImage = entity.ProductImage,
+            Avaible = entity.Avaible,
             Categories = CategoryList
         };
     }
@@ -36,6 +37,7 @@ public class DishMapper
             Description = entity.Description,
             Price = entity.Price,
             ProductImage = entity.ProductImage,
+            Avaible = entity.Avaible,
             Categories = categoryList
         };
     }
@@ -51,6 +53,7 @@ public class DishMapper
             Description = entity.Description,
             Price = entity.Price,
             ProductImage = entity.ProductImage,
+            Avaible = entity.Avaible,
             Categories = categoryList
         };
     }
@@ -71,7 +74,8 @@ public class DishMapper
         {
             Name = addDishDTO.Name,
             Description = addDishDTO.Description,
-            Price = addDishDTO.Price
+            Price = addDishDTO.Price,
+            Avaible = true
         };
     }
 }
