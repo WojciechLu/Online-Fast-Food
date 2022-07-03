@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OFF.Infrastructure.EntityFramework.Entities;
 
@@ -11,9 +12,10 @@ using OFF.Infrastructure.EntityFramework.Entities;
 namespace OFF.Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(OFFDbContext))]
-    partial class OFFDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220702183739_Change-category-and-dish-relation")]
+    partial class Changecategoryanddishrelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +37,6 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                     b.HasIndex("DishesId");
 
                     b.ToTable("CategoryDish");
-                });
-
-            modelBuilder.Entity("DishOrder", b =>
-                {
-                    b.Property<int>("DishesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderedId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DishesId", "OrderedId");
-
-                    b.HasIndex("OrderedId");
-
-                    b.ToTable("DishOrder");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Category", b =>
@@ -77,15 +64,15 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Avaible")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
@@ -95,6 +82,8 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Dishes");
                 });
@@ -183,19 +172,11 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DishOrder", b =>
+            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Dish", b =>
                 {
-                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Dish", null)
-                        .WithMany()
-                        .HasForeignKey("DishesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrderedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Dishes")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Order", b =>
@@ -218,6 +199,11 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Order", b =>
+                {
+                    b.Navigation("Dishes");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.User", b =>

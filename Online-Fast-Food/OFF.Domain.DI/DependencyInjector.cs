@@ -9,6 +9,7 @@ using OFF.Domain.Interfaces.Facades;
 using OFF.Domain.Interfaces.Infrastructure;
 using OFF.Infrastructure.EntityFramework;
 using OFF.Infrastructure.EntityFramework.Entities;
+using OFF.Infrastructure.EntityFramework.Mapper;
 using OFF.Infrastructure.EntityFramework.Services;
 using System.Text;
 
@@ -23,7 +24,9 @@ public static class DependencyInjector
         serviceCollection.AddScoped<DbSeeder>();
         serviceCollection.AddScoped<IAccountFcd, AccountFcd>();
         serviceCollection.AddScoped<IAccountSrv, AccountSrv>();
+        serviceCollection.AddScoped<IDishSrv, DishSrv>();
         serviceCollection.AddScoped<IJwtUtils, JwtUtils>();
+        serviceCollection.AddScoped<DishMapper>();
 
         //JWT
         var authenticationSettings = new AuthenticationSettings();
