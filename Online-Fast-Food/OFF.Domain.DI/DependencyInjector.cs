@@ -28,6 +28,7 @@ public static class DependencyInjector
         serviceCollection.AddScoped<IDishSrv, DishSrv>();
         serviceCollection.AddScoped<IJwtUtils, JwtUtils>();
         serviceCollection.AddScoped<DishMapper>();
+        serviceCollection.AddScoped<OrderMapper>();
 
         //JWT
         var authenticationSettings = new AuthenticationSettings();

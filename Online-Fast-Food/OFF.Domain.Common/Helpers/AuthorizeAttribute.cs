@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using OFF.Domain.Common.Models.Dish;
+using OFF.Domain.Common.Models.Order;
 using OFF.Domain.Common.Models.User;
 using Request.Body.Peeker;
 using System;
@@ -26,7 +27,16 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
             context.Result = new JsonResult(new { message = "Unauthorized" })
             { StatusCode = StatusCodes.Status401Unauthorized };
 
-        if (!Roles.Contains(user?.Role))
+        if (Roles != null)
+        {
+            if (!Roles.Contains(user?.Role))
+                context.Result = new JsonResult(new { message = "Unauthorized" })
+                { StatusCode = StatusCodes.Status401Unauthorized };
+        }
+
+        var body = context.HttpContext.Request.PeekBody();
+        var customerId = JsonConvert.DeserializeObject<CreateOrderDTO>(body).CustomerId;
+        if (customerId != user?.Id)
             context.Result = new JsonResult(new { message = "Unauthorized" })
             { StatusCode = StatusCodes.Status401Unauthorized };
     }
