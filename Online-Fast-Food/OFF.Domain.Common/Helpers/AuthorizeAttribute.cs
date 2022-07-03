@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using OFF.Domain.Common.Models.Dish;
 using OFF.Domain.Common.Models.User;
 using Request.Body.Peeker;
 using System;
@@ -16,23 +17,26 @@ namespace OFF.Domain.Common.Helpers;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 {
+    public string Roles { get; set; }
+
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
-        if (allowAnonymous)
-            return;
-
         var user = (UserAuthorizeDTO)context.HttpContext.Items["User"];
         if (user == null)
             context.Result = new JsonResult(new { message = "Unauthorized" })
             { StatusCode = StatusCodes.Status401Unauthorized };
 
-        var body = context.HttpContext.Request.PeekBody();
-        //var authorId = JsonConvert.DeserializeObject<CreateConversationDTO>(body).AuthorId;
-
-        //var senderId = JsonConvert.DeserializeObject<FriendDTO>(body).UserId;
-        //if (authorId != user?.Id && senderId != user?.Id)
-        //    context.Result = new JsonResult(new { message = "Unauthorized" })
-        //    { StatusCode = StatusCodes.Status401Unauthorized };
+        if (!Roles.Contains(user?.Role))
+            context.Result = new JsonResult(new { message = "Unauthorized" })
+            { StatusCode = StatusCodes.Status401Unauthorized };
+    }
+}
+public class AllowAnonymousAttribute : Attribute
+{
+    public void OnAuthorization(AuthorizationFilterContext context)
+    {
+        var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
+        if (allowAnonymous)
+            return;
     }
 }

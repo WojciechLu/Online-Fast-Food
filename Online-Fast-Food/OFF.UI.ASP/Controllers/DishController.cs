@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OFF.Domain.Common.Helpers;
 using OFF.Domain.Common.Models.Dish;
 using OFF.Domain.Interfaces.Infrastructure;
 
@@ -6,6 +7,8 @@ namespace Online_Fast_Food.UI.ASP.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "Admin")]
+//[Authorize(Roles = "Admin, User")]
 
 public class DishController : ControllerBase
 {
@@ -46,12 +49,14 @@ public class DishController : ControllerBase
     }
 
     [HttpPost("getAvailableDishesByCategory")]
+    [AllowAnonymous]
     public ActionResult GetAvailableDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
     {
         return Ok(_dishSrv.GetAvailableDishesByCategory(getDishDTO));
     }
 
     [HttpPost("getAvailableDishes")]
+    [AllowAnonymous]
     public ActionResult GetAvailableDishes()
     {
         return Ok(_dishSrv.GetAvailableDishes());
@@ -82,3 +87,4 @@ public class DishController : ControllerBase
     }
 
 }
+
