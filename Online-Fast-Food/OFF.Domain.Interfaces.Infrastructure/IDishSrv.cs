@@ -1,5 +1,4 @@
-﻿using OFF.Domain.Common.Models;
-using OFF.Domain.Common.Models.Dish;
+﻿using OFF.Domain.Common.Models.Dish;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,4 +11,6 @@ public interface IDishSrv
 {
     DishDTO AddDish(AddDishDTO addDishDTO);
     DishDTO EditDish(EditDishDTO editDishDTO);
+    DishDTO GetDishById(GetDishIdDTO getDishDTO);
+    DishesDTO GetDishesByCategory(GetDishCategoryDTO getDishDTO);
 }

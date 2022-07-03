@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OFF.Domain.Common.Models;
 using OFF.Domain.Common.Models.Dish;
 using OFF.Domain.Interfaces.Infrastructure;
 
@@ -26,6 +25,18 @@ public class DishController : ControllerBase
     public ActionResult EditDish([FromForm] EditDishDTO editDishDTO)
     {
         return Ok(_dishSrv.EditDish(editDishDTO));
+    }
+
+    [HttpPost("getDishById")]
+    public ActionResult GetDishById([FromBody] GetDishIdDTO getDishDTO)
+    {
+        return Ok(_dishSrv.GetDishById(getDishDTO));
+    }
+
+    [HttpPost("getDishByCategory")]
+    public ActionResult GetDishByCategory([FromBody] GetDishCategoryDTO getDishDTO)
+    {
+        return Ok(_dishSrv.GetDishesByCategory(getDishDTO));
     }
 
 }

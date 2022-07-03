@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OFF.Domain.Common.Exceptions.Dish;
-using OFF.Domain.Common.Models;
 using OFF.Domain.Common.Models.Dish;
 using OFF.Domain.Interfaces.Infrastructure;
 using OFF.Infrastructure.EntityFramework.Entities;
@@ -93,6 +92,27 @@ public class DishSrv : IDishSrv
 
         DishDTO editedDishDTO = _dishMapper.Map(dishToEdit);
         return editedDishDTO;
+    }
+
+    public DishDTO GetDishById(GetDishIdDTO getDishDTO)
+    {
+        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == getDishDTO.Id);
+        var dishDTO = _dishMapper.Map(dish);
+        return dishDTO;
+    }
+
+    public DishesDTO GetDishesByCategory(GetDishCategoryDTO getDishDTO)
+    {
+        var list = _dbContext.Categories.Include(c => c.Dishes).FirstOrDefault(c => c.Name == getDishDTO.Name).Dishes;
+
+        var listOfDishes = new DishesDTO();
+        listOfDishes.Dishes = new List<DishDTO>();
+        foreach (var dish in list)
+        {
+            var i = _dishMapper.Map(dish);
+            listOfDishes.Dishes.Add(i);
+        }
+        return listOfDishes;
     }
 
     private void AddCategory(ICollection<String> Categories, int DishId)

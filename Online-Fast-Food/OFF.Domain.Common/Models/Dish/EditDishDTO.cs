@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OFF.Domain.Common.Models;
+namespace OFF.Domain.Common.Models.Dish;
 
 public class EditDishDTO
 {
@@ -14,5 +14,5 @@ public class EditDishDTO
     public string? Description { get; set; }
     public IFormFile? ProductImage { get; set; }
     public float? Price { get; set; }
-    public ICollection<String>? Categories { get; set; }
+    public ICollection<string>? Categories { get; set; }
 }
