@@ -28,7 +28,7 @@ public class DishController : ControllerBase
     }
 
     [HttpPost("getDishById")]
-    public ActionResult GetDishById([FromBody] GetDishIdDTO getDishDTO)
+    public ActionResult GetDishById([FromBody] DishIdDTO getDishDTO)
     {
         return Ok(_dishSrv.GetDishById(getDishDTO));
     }
@@ -55,6 +55,18 @@ public class DishController : ControllerBase
     public ActionResult GetAvaibleDishes()
     {
         return Ok(_dishSrv.GetAvaibleDishes());
+    }
+
+    [HttpPost("removeDishFromMenu")]
+    public ActionResult RemoveDishFromMenu([FromBody] DishIdDTO getDishDTO)
+    {
+        return Ok(_dishSrv.RemoveDishFromMenu(getDishDTO));
+    }
+
+    [HttpPost("returnDishBackToMenu")]
+    public ActionResult ReturnDishBackToMenu([FromBody] DishIdDTO getDishDTO)
+    {
+        return Ok(_dishSrv.ReturnDishBackToMenu(getDishDTO));
     }
 
 }

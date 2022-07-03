@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OFF.Domain.Common.Models.Dish;
 
-public class GetDishIdDTO
+public class DishIdDTO
 {
     public int Id { get; set; }
 }

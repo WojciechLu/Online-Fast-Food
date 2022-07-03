@@ -62,6 +62,7 @@ public class DishSrv : IDishSrv
     public DishDTO EditDish(EditDishDTO editDishDTO)
     {
         var dishToEdit = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == editDishDTO.Id);
+        if (dishToEdit == null) throw new DishNotFoundException();
         if (editDishDTO.Description != null) dishToEdit.Description = editDishDTO.Description;
         if(editDishDTO.ProductImage != null)
         {
@@ -108,9 +109,10 @@ public class DishSrv : IDishSrv
         return newList;
     }
 
-    public DishDTO GetDishById(GetDishIdDTO getDishDTO)
+    public DishDTO GetDishById(DishIdDTO getDishDTO)
     {
         var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == getDishDTO.Id);
+        if (dish == null) throw new DishNotFoundException();
         var dishDTO = _dishMapper.Map(dish);
         return dishDTO;
     }
@@ -145,6 +147,31 @@ public class DishSrv : IDishSrv
             listOfDishes.Dishes.Add(_dishMapper.Map(i));
         }
         return listOfDishes;
+    }
+
+    public DishDTO RemoveDishFromMenu(DishIdDTO dishId)
+    {
+        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dishId.Id);
+        if (dish == null) throw new DishNotFoundException();
+
+        dish.Avaible = false;
+        _dbContext.SaveChanges();
+
+        var dishDTO = _dishMapper.Map(dish);
+        return dishDTO;
+
+    }
+
+    public DishDTO ReturnDishBackToMenu(DishIdDTO dishId)
+    {
+        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dishId.Id);
+        if (dish == null) throw new DishNotFoundException();
+
+        dish.Avaible = true;
+        _dbContext.SaveChanges();
+
+        var dishDTO = _dishMapper.Map(dish);
+        return dishDTO;
     }
 
     private void AddCategory(ICollection<String> Categories, int DishId)
