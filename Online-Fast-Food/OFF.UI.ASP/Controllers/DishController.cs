@@ -45,16 +45,28 @@ public class DishController : ControllerBase
         return Ok(_dishSrv.GetDishes());
     }
 
-    [HttpPost("getAvaibleDishesByCategory")]
-    public ActionResult GetAvaibleDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
+    [HttpPost("getAvailableDishesByCategory")]
+    public ActionResult GetAvailableDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
     {
-        return Ok(_dishSrv.GetAvaibleDishesByCategory(getDishDTO));
+        return Ok(_dishSrv.GetAvailableDishesByCategory(getDishDTO));
     }
 
-    [HttpPost("getAvaibleDishes")]
-    public ActionResult GetAvaibleDishes()
+    [HttpPost("getAvailableDishes")]
+    public ActionResult GetAvailableDishes()
     {
-        return Ok(_dishSrv.GetAvaibleDishes());
+        return Ok(_dishSrv.GetAvailableDishes());
+    }
+
+    [HttpPost("getUnavailableDishesByCategory")]
+    public ActionResult GetUnavailableDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
+    {
+        return Ok(_dishSrv.GetUnavailableDishesByCategory(getDishDTO));
+    }
+
+    [HttpPost("getUnavailableDishes")]
+    public ActionResult GetUnavailableDishes()
+    {
+        return Ok(_dishSrv.GetUnavailableDishes());
     }
 
     [HttpPost("removeDishFromMenu")]

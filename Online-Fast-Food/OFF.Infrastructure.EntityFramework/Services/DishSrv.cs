@@ -95,17 +95,31 @@ public class DishSrv : IDishSrv
         return editedDishDTO;
     }
 
-    public DishesDTO GetAvaibleDishes()
+    public DishesDTO GetAvailableDishes()
     {
         var list = GetDishes();
-        var newList = AvaibleDishes(list);
+        var newList = CheckDishes(list, true);
         return newList;
     }
 
-    public DishesDTO GetAvaibleDishesByCategory(GetDishCategoryDTO getDishDTO)
+    public DishesDTO GetAvailableDishesByCategory(GetDishCategoryDTO getDishDTO)
     {
         var list = GetDishesByCategory(getDishDTO);
-        var newList = AvaibleDishes(list);
+        var newList = CheckDishes(list, true);
+        return newList;
+    }
+
+    public DishesDTO GetUnavailableDishes()
+    {
+        var list = GetDishes();
+        var newList = CheckDishes(list, false);
+        return newList;
+    }
+
+    public DishesDTO GetUnavailableDishesByCategory(GetDishCategoryDTO getDishDTO)
+    {
+        var list = GetDishesByCategory(getDishDTO);
+        var newList = CheckDishes(list, false);
         return newList;
     }
 
@@ -188,13 +202,13 @@ public class DishSrv : IDishSrv
         _dbContext.SaveChanges();
     }
 
-    private DishesDTO AvaibleDishes(DishesDTO list)
+    private DishesDTO CheckDishes(DishesDTO list, bool check)
     {
         var newList = new DishesDTO();
         newList.Dishes = new List<DishDTO>();
         foreach (var dish in list.Dishes)
         {
-            if (dish.Avaible == true) newList.Dishes.Add(dish);
+            if (dish.Avaible == check) newList.Dishes.Add(dish);
         }
         return newList;
     }
