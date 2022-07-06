@@ -35,7 +35,7 @@ if (app.Environment.IsDevelopment())
 
 //stripe api
 //StripeConfiguration.ApiKey = "pk_live_51LHiyMA16oTjMyUCZfO6Z0KarukQx9OOA609shj5bNuTzJEHVPDzaozAEiRoHNAPY9nkaHvxtGRBTzmEeLMBNscy00oirSYRJf";
-StripeConfiguration.ApiKey = "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";
+StripeConfiguration.ApiKey = "pk_test_51LHiyMA16oTjMyUCuUwCdk45AuV4EHhyWfBGAPlSv2MqJu0kP9Kietirf0CSSZ1u6yuJqVYIDdEEFghVqlMrDpya007FDcTptt";
 
 using (var scope = app.Services.CreateScope())
 {

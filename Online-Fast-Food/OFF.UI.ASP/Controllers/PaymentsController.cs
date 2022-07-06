@@ -13,7 +13,7 @@ namespace server.Controllers
     {
         public PaymentsController()
         {
-            StripeConfiguration.ApiKey = "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";
+            StripeConfiguration.ApiKey = "sk_test_51LHiyMA16oTjMyUCI8vFgW2roVUHVnFas4DLZ8tKVmhbEaKZaYjRrwm3Xkco8mSAVKItXIYq1E0MSQOxGvRHeOq400zVqmBSCi";
         }
 
         [HttpPost("create-checkout-session")]
