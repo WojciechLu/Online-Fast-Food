@@ -11,6 +11,7 @@ public class Order
     public int Id { get; set; }
     public int CustomerId { get; set; }
     public User Customer { get; set; }
+    public bool Completed { get; set; } = false;
 
-    public ICollection<Dish> Dishes { get; set; }
+    public ICollection<DishOrder> Dishes { get; set; }
 }

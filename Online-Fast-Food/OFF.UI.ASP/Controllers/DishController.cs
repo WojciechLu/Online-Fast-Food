@@ -7,8 +7,7 @@ namespace Online_Fast_Food.UI.ASP.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin")]
-//[Authorize(Roles = "Admin, User")]
+[Authorize(Roles = "Admin, User")]
 
 public class DishController : ControllerBase
 {
@@ -19,30 +18,35 @@ public class DishController : ControllerBase
     }
 
     [HttpPost("addDish")]
+    [Authorize(Roles = "Admin")]
     public ActionResult AddDish([FromForm] AddDishDTO addDishDTO)
     {
         return Ok(_dishSrv.AddDish(addDishDTO));
     }
 
     [HttpPost("editDish")]
+    [Authorize(Roles = "Admin")]
     public ActionResult EditDish([FromForm] EditDishDTO editDishDTO)
     {
         return Ok(_dishSrv.EditDish(editDishDTO));
     }
 
     [HttpPost("getDishById")]
+    [Authorize(Roles = "Admin")]
     public ActionResult GetDishById([FromBody] DishIdDTO getDishDTO)
     {
         return Ok(_dishSrv.GetDishById(getDishDTO));
     }
 
     [HttpPost("getDiseshByCategory")]
+    [Authorize(Roles = "Admin")]
     public ActionResult GetDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
     {
         return Ok(_dishSrv.GetDishesByCategory(getDishDTO));
     }
 
     [HttpPost("getDishes")]
+    [Authorize(Roles = "Admin")]
     public ActionResult GetDishes()
     {
         return Ok(_dishSrv.GetDishes());
@@ -63,27 +67,37 @@ public class DishController : ControllerBase
     }
 
     [HttpPost("getUnavailableDishesByCategory")]
+    [Authorize(Roles = "Admin")]
     public ActionResult GetUnavailableDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
     {
         return Ok(_dishSrv.GetUnavailableDishesByCategory(getDishDTO));
     }
 
     [HttpPost("getUnavailableDishes")]
+    [Authorize(Roles = "Admin")]
     public ActionResult GetUnavailableDishes()
     {
         return Ok(_dishSrv.GetUnavailableDishes());
     }
 
     [HttpPost("removeDishFromMenu")]
+    [Authorize(Roles = "Admin")]
     public ActionResult RemoveDishFromMenu([FromBody] DishIdDTO getDishDTO)
     {
         return Ok(_dishSrv.RemoveDishFromMenu(getDishDTO));
     }
 
     [HttpPost("returnDishBackToMenu")]
+    [Authorize(Roles = "Admin")]
     public ActionResult ReturnDishBackToMenu([FromBody] DishIdDTO getDishDTO)
     {
         return Ok(_dishSrv.ReturnDishBackToMenu(getDishDTO));
+    }
+
+    [HttpPost("addToOrder")]
+    public ActionResult AddToOrder([FromBody] AddToOrderDTO addToOrder)
+    {
+        return Ok(_dishSrv.AddToOrder(addToOrder));
     }
 
 }

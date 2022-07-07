@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OFF.Domain.Common.Models.Dish;
+namespace OFF.Domain.Common.Models.Order;
 
-public class GetDishCategoryDTO
+public class CreateOrderDTO
 {
     public int CustomerId { get; set; }
-    public string Name { get; set; }
 }

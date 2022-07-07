@@ -21,4 +21,6 @@ public interface IDishSrv
 
     DishDTO RemoveDishFromMenu(DishIdDTO dishId);
     DishDTO ReturnDishBackToMenu(DishIdDTO dishId);
+
+    DishDTO AddToOrder(AddToOrderDTO addToOrder);
 }

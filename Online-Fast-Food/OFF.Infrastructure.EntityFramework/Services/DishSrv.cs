@@ -212,4 +212,38 @@ public class DishSrv : IDishSrv
         }
         return newList;
     }
+
+    public DishDTO AddToOrder(AddToOrderDTO addToOrder)
+    {
+        var order = _dbContext.Orders.Include(o => o.Dishes)
+            .FirstOrDefault(o => o.Id == addToOrder.OrderId);
+        var dish = _dbContext.Dishes.Include(d => d.Categories)
+            .Include(d => d.Ordered)
+            .FirstOrDefault(d => d.Id == addToOrder.DishId);
+
+        var dishOrder = _dbContext.DishOrders.Include(x => x.Dish)
+            .Include(x => x.Order)
+            .FirstOrDefault(x => x.DishId == addToOrder.DishId && x.OrderId == addToOrder.OrderId);
+
+        if (dishOrder == null)
+        {
+            dishOrder = new DishOrder
+            {
+                Dish = dish,
+                DishId = dish.Id,
+                Order = order,
+                OrderId = order.Id,
+                Quantity = 1
+            };
+            _dbContext.DishOrders.Add(dishOrder);
+            order.Dishes.Add(dishOrder);
+            dish.Ordered.Add(dishOrder);
+        }
+        else dishOrder.Quantity += 1;
+
+        _dbContext.SaveChanges();
+
+        var dishDTO = _dishMapper.Map(dish);
+        return dishDTO;
+    }
 }

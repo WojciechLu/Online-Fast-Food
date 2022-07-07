@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OFF.Infrastructure.EntityFramework.Entities;
 
@@ -11,9 +12,10 @@ using OFF.Infrastructure.EntityFramework.Entities;
 namespace OFF.Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(OFFDbContext))]
-    partial class OFFDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220703182814_Add-completed-collumn-to-order")]
+    partial class Addcompletedcollumntoorder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +37,21 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                     b.HasIndex("DishesId");
 
                     b.ToTable("CategoryDish");
+                });
+
+            modelBuilder.Entity("DishOrder", b =>
+                {
+                    b.Property<int>("DishesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderedId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DishesId", "OrderedId");
+
+                    b.HasIndex("OrderedId");
+
+                    b.ToTable("DishOrder");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Category", b =>
@@ -82,24 +99,6 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Dishes");
-                });
-
-            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.DishOrder", b =>
-                {
-                    b.Property<int>("DishId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("DishId", "OrderId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("DishOrders");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Order", b =>
@@ -189,23 +188,19 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.DishOrder", b =>
+            modelBuilder.Entity("DishOrder", b =>
                 {
-                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Dish", "Dish")
-                        .WithMany("Ordered")
-                        .HasForeignKey("DishId")
+                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Dish", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Order", "Order")
-                        .WithMany("Dishes")
-                        .HasForeignKey("OrderId")
+                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrderedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Dish");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Order", b =>
@@ -228,16 +223,6 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Dish", b =>
-                {
-                    b.Navigation("Ordered");
-                });
-
-            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Order", b =>
-                {
-                    b.Navigation("Dishes");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.User", b =>

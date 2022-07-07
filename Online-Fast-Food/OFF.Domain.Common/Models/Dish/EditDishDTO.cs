@@ -10,7 +10,7 @@ namespace OFF.Domain.Common.Models.Dish;
 
 public class EditDishDTO
 {
-    [Required] public int UserId { get; set; }
+    public int AdminId { get; set; }
     [Required] public int Id { get; set; }
     public string? Description { get; set; }
     public IFormFile? ProductImage { get; set; }

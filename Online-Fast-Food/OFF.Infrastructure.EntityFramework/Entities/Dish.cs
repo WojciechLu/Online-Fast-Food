@@ -15,5 +15,5 @@ public class Dish
     public float Price { get; set; }
     public bool Avaible { get; set; } = true;
     public ICollection<Category> Categories { get; set; } 
-    public ICollection<Order> Ordered { get; set; }
+    public ICollection<DishOrder> Ordered { get; set; }
 }
