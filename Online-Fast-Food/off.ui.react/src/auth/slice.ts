@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import user, { initialState } from "../common/models/user/user";
 import { registerAction } from "./register/action";
 import { RootState } from "../common/store/rootReducer";
+import { loginAction } from "./login/action";
 
 export const authSlice = createSlice({
   name: "auth",
@@ -21,6 +22,23 @@ export const authSlice = createSlice({
     builder
       .addCase(
         registerAction.fulfilled,
+        (state: user, action: PayloadAction<user, string>) => {
+          if (action.payload !== undefined) {
+            localStorage.setItem("userToken", action.payload.token);
+            localStorage.setItem("id", action.payload.id.toString());
+            localStorage.setItem("firstName", action.payload.firstName);
+            localStorage.setItem("lastName", action.payload.lastName);
+            localStorage.setItem("email", action.payload.email);
+            state.id = action.payload.id;
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
+            state.token = action.payload.token;
+            state.email = action.payload.email;
+          }
+        }
+      )
+      .addCase(
+        loginAction.fulfilled,
         (state: user, action: PayloadAction<user, string>) => {
           if (action.payload !== undefined) {
             localStorage.setItem("userToken", action.payload.token);

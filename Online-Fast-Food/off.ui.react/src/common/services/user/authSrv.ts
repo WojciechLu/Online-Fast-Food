@@ -1,18 +1,19 @@
 import register from "../../models/user/register";
 import { api } from "../../connectionString"
+import login from "../../models/user/login";
 
 const controllerPath = "Account/";
 
 export const authSrv = {
-    //   async login(credential: login) {
-    //     try {
-    //       return await api
-    //         .post(controllerPath + "login", credential)
-    //         .then((r) => r.data);
-    //     } catch (e) {
-    //       console.error(e);
-    //     }
-    //   },
+      async login(credential: login) {
+        try {
+          return await api
+            .post(controllerPath + "login", credential)
+            .then((r) => r.data);
+        } catch (e) {
+          console.error(e);
+        }
+      },
 
     async register(credential: register) {
         try {

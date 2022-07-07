@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { ActionButton } from "../../common/components/buttons/actionButton";
 import { SubmitButton } from "../../common/components/buttons/submitButton";
 import { RegisterFormContainer } from "../../common/components/containers/registerFormContainer";
 import { BasicInput } from "../../common/components/inputs/basicInput";
@@ -110,6 +111,11 @@ export const Register = () => {
       >
         Submit
       </SubmitButton>
+      
+      <h2>Already have an account?</h2>
+      <ActionButton className="new-account" onClick={() => navigate("/login")}>
+        Sign in
+      </ActionButton>
     </RegisterFormContainer>
   );
 };
