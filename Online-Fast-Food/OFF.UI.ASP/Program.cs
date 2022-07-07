@@ -16,6 +16,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        b =>
+        {
+            b.WithOrigins("http://localhost:3000/").AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(_ => true)
+                .AllowCredentials();
+        });
+});
 
 var app = builder.Build();
 
@@ -39,5 +48,5 @@ app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
-
+app.UseCors();
 app.Run();

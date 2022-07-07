@@ -61,7 +61,8 @@ public class AccountSrv : IAccountSrv
             Email = userAuth.Email,
             FirstName=userAuth.FirstName,
             LastName = userAuth.LastName,
-            Token=token
+            Token=token,
+            Role = user.Role.Name
         };
         return userDTO;
     }
@@ -105,7 +106,8 @@ public class AccountSrv : IAccountSrv
             FirstName=newUser.FirstName,
             LastName=newUser.LastName,
             Email = newUser.Email,
-            Token = token
+            Token = token,
+            Role = newUser.Role.Name
         };
         return newUserDTO;
     }
