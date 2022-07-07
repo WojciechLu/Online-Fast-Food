@@ -23,6 +23,15 @@ builder.Services.Configure<KestrelServerOptions>(options =>
     options.AllowSynchronousIO = true;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        b =>
+        {
+            b.WithOrigins("http://localhost:3000/").AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(_ => true)
+                .AllowCredentials();
+        });
+});
 
 var app = builder.Build();
 
@@ -50,5 +59,5 @@ app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
-
+app.UseCors();
 app.Run();
