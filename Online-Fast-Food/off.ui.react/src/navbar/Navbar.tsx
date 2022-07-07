@@ -1,4 +1,4 @@
-import { Link, MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { Register } from "../auth/register/Register";
 import { Home } from "../home/Home";
 import { Container, Nav, Navbar } from "react-bootstrap";
@@ -47,6 +47,11 @@ export const NavbarRouter = () => {
                 <LogoutIcon />
                 <span>Sign out</span>
               </a>
+            )}
+            {currentUser.role === "Admin" && (
+              <Link to="/">
+                <span>ADMIN PANEL</span>
+              </Link>
             )}
           </Navbar.Collapse>
         </Container>

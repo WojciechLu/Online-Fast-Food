@@ -45,7 +45,6 @@ const registerValidator = (fieldName: string, value: string) => {
 
 export const Register = () => {
   const dispatch = useDispatch();
-  const currentUser = useAppSelector((state) => SelectUser(state));
   const navigate = useNavigate();
   const [credits, setCredits] = useState(registerInitialState);
 

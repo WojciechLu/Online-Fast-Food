@@ -4,6 +4,7 @@ export default interface user {
     lastName: string;
     email:string;
     token: string;
+    role: string;
   }
   
   export const initialState: user = {
@@ -12,4 +13,5 @@ export default interface user {
     lastName: "",
     email:"",
     token: "",
+    role: "",
   };

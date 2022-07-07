@@ -15,6 +15,7 @@ export const authSlice = createSlice({
         state.firstName = localStorage.getItem("firstName")!;
         state.token = localStorage.getItem("userToken")!;
         state.email = localStorage.getItem("email")!;
+        state.role = localStorage.getItem("role")!;
       }
     },
   },
@@ -29,11 +30,13 @@ export const authSlice = createSlice({
             localStorage.setItem("firstName", action.payload.firstName);
             localStorage.setItem("lastName", action.payload.lastName);
             localStorage.setItem("email", action.payload.email);
+            localStorage.setItem("role", action.payload.role);
             state.id = action.payload.id;
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             state.token = action.payload.token;
             state.email = action.payload.email;
+            state.role = action.payload.role;
           }
         }
       )
@@ -46,11 +49,13 @@ export const authSlice = createSlice({
             localStorage.setItem("firstName", action.payload.firstName);
             localStorage.setItem("lastName", action.payload.lastName);
             localStorage.setItem("email", action.payload.email);
+            localStorage.setItem("role", action.payload.role);
             state.id = action.payload.id;
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             state.token = action.payload.token;
             state.email = action.payload.email;
+            state.role = action.payload.role;
           }
         }
       )
