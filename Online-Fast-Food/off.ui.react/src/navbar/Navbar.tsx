@@ -8,6 +8,7 @@ import { useAppSelector } from "../common/store/rootReducer";
 import { SelectUser } from "../auth/slice";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { StripePaymentForm } from "../payment/Payment";
 
 export const NavbarRouter = () => {
   const navigate = useNavigate();
@@ -43,10 +44,16 @@ export const NavbarRouter = () => {
               </Link>
             )}
             {isLogged && (
-              <a onClick={handleLogout}>
-                <LogoutIcon />
-                <span>Sign out</span>
-              </a>
+              <>
+                <a onClick={handleLogout}>
+                  <LogoutIcon />
+                  <span>Sign out</span>
+                </a>
+
+                <Link to="/payment">
+                  <span>Payment</span>
+                </Link>
+              </>
             )}
             {currentUser.role === "Admin" && (
               <Link to="/">
@@ -59,6 +66,7 @@ export const NavbarRouter = () => {
       <Routes>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/payment" element={<StripePaymentForm />}></Route>
         <Route path="/" element={<Home />}></Route>
       </Routes>
     </>
