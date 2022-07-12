@@ -27,8 +27,8 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                     b.Property<int>("CategoriesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DishesId")
-                        .HasColumnType("int");
+                    b.Property<string>("DishesId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CategoriesId", "DishesId");
 
@@ -56,11 +56,8 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Dish", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Avaible")
                         .HasColumnType("bit");
@@ -86,8 +83,8 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.DishOrder", b =>
                 {
-                    b.Property<int>("DishId")
-                        .HasColumnType("int");
+                    b.Property<string>("DishId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");

@@ -61,7 +61,7 @@ public class DishSrv : IDishSrv
 
     public DishDTO EditDish(EditDishDTO editDishDTO)
     {
-        var dishToEdit = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == editDishDTO.Id);
+        var dishToEdit = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == editDishDTO.DishId);
         if (dishToEdit == null) throw new DishNotFoundException();
         if (editDishDTO.Description != null) dishToEdit.Description = editDishDTO.Description;
         if(editDishDTO.ProductImage != null)
@@ -87,7 +87,7 @@ public class DishSrv : IDishSrv
             dishToEdit.Categories.Clear();
 
             //adding new
-            AddCategory(editDishDTO.Categories, editDishDTO.Id);
+            AddCategory(editDishDTO.Categories, editDishDTO.DishId);
         }
         _dbContext.SaveChanges();
 
@@ -125,7 +125,7 @@ public class DishSrv : IDishSrv
 
     public DishDTO GetDishById(DishIdDTO getDishDTO)
     {
-        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == getDishDTO.Id);
+        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == getDishDTO.DishId);
         if (dish == null) throw new DishNotFoundException();
         var dishDTO = _dishMapper.Map(dish);
         return dishDTO;
@@ -165,7 +165,7 @@ public class DishSrv : IDishSrv
 
     public DishDTO RemoveDishFromMenu(DishIdDTO dishId)
     {
-        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dishId.Id);
+        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dishId.DishId);
         if (dish == null) throw new DishNotFoundException();
 
         dish.Avaible = false;
@@ -178,7 +178,7 @@ public class DishSrv : IDishSrv
 
     public DishDTO ReturnDishBackToMenu(DishIdDTO dishId)
     {
-        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dishId.Id);
+        var dish = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dishId.DishId);
         if (dish == null) throw new DishNotFoundException();
 
         dish.Avaible = true;
@@ -188,7 +188,7 @@ public class DishSrv : IDishSrv
         return dishDTO;
     }
 
-    private void AddCategory(ICollection<String> Categories, int DishId)
+    private void AddCategory(ICollection<String> Categories, string DishId)
     {
         var dish = _dbContext.Dishes.FirstOrDefault(d => d.Id == DishId);
         if (dish.Categories == null) dish.Categories = new List<Category>();

@@ -10,5 +10,5 @@ namespace OFF.Domain.Common.Models.Dish;
 public class DishIdDTO
 {
     public int AdminId { get; set; }
-    public int Id { get; set; }
+    public string DishId { get; set; }
 }
