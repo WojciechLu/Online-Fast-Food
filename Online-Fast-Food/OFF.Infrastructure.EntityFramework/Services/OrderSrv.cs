@@ -1,4 +1,5 @@
 ﻿using OFF.Domain.Common.Models.Order;
+using OFF.Domain.Common.Models.Payment;
 using OFF.Domain.Interfaces.Infrastructure;
 using OFF.Infrastructure.EntityFramework.Entities;
 using OFF.Infrastructure.EntityFramework.Mapper;
@@ -14,11 +15,13 @@ public class OrderSrv : IOrderSrv
 {
     private readonly OFFDbContext _dbContext;
     private readonly OrderMapper _orderMapper;
+    private readonly IStripeSrv _stripeSrv;
 
-    public OrderSrv(OFFDbContext dbContext, OrderMapper orderMapper)
+    public OrderSrv(OFFDbContext dbContext, OrderMapper orderMapper, IStripeSrv stripeSrv)
     {
         _dbContext=dbContext;
         _orderMapper=orderMapper;
+        _stripeSrv=stripeSrv;
     }
 
     public OrderDTO CreateOrder(CreateOrderDTO createOrder)
@@ -34,5 +37,18 @@ public class OrderSrv : IOrderSrv
         return orderDTO;
     }
 
+    public async Task<CreateCheckoutSessionResponse> PayForOrder(OrderIdDTO orderIdDTO)
+    {
+        var dishOrder = _dbContext.DishOrders.Where(x => x.OrderId == orderIdDTO.Id).ToList();
+        var payForOrder = new CreateCheckoutSessionRequest();
+        payForOrder.DictionaryPrice = new Dictionary<string, int>();
 
+        foreach (var order in dishOrder)
+        {
+            var i = _stripeSrv.GetProduct(order.DishId).DefaultPriceId;
+            payForOrder.DictionaryPrice.Add(i, order.Quantity);
+        }
+        var result = await _stripeSrv.CreateCheckOutAsync(payForOrder);
+        return result;
+    }
 }

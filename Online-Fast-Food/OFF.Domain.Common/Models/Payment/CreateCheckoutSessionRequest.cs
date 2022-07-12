@@ -9,5 +9,5 @@ namespace OFF.Domain.Common.Models.Payment;
 public class CreateCheckoutSessionRequest
 {
 	[JsonProperty("priceId")]
-	public string PriceId { get; set; }
+	public Dictionary<string, int> DictionaryPrice { get; set; }
 }

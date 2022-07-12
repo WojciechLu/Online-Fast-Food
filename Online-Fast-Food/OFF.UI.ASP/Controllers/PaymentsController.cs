@@ -20,9 +20,10 @@ public class PaymentsController : Controller
 	}
 
 	[HttpPost("create-checkout-session")]
-    public async Task<ActionResult> CreateCheckoutSessionAsync([FromBody] CreateCheckoutSessionRequest req)
+    public async Task<ActionResult> CreateCheckoutSessionAsync()
 	{
-		req.PriceId = "price_1LJuAtA16oTjMyUCqtnZnGA1";
+
+
 		var options = new SessionCreateOptions
 		{
 			SuccessUrl = "http://localhost:4200/success",
@@ -31,13 +32,13 @@ public class PaymentsController : Controller
 				{
 					"card",
 				},
-			Mode = "subscription",
+			Mode = "payment",
 			LineItems = new List<SessionLineItemOptions>
 				{
 					new SessionLineItemOptions
 					{
-						Price = req.PriceId,
-						Quantity = 1,
+						Price = "price_1LKlSGA16oTjMyUCq4RZCFoe",
+						Quantity = 1
 					},
 				},
 		};
