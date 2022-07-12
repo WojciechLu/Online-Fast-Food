@@ -64,4 +64,13 @@ public class PaymentsController : Controller
 			});
 		}
 	}
+
+	[HttpPost("list")]
+	public async Task<ActionResult> CreatePrice([FromBody] PriceDTO price)
+	{
+		var options = new PriceListOptions { Limit = 5 };
+		var service = new PriceService();
+		StripeList<Price> prices = service.List(options);
+		return Ok(prices);
+	}
 }

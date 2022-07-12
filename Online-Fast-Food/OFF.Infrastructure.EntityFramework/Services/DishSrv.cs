@@ -16,11 +16,13 @@ public class DishSrv : IDishSrv
 {
     private readonly OFFDbContext _dbContext;
     private readonly DishMapper _dishMapper;
+    private readonly IStripeSrv _stripeSrv;
 
-    public DishSrv(OFFDbContext dbContext, DishMapper dishMapper)
+    public DishSrv(OFFDbContext dbContext, DishMapper dishMapper, IStripeSrv stripeSrv)
     {
         _dbContext=dbContext;
         _dishMapper=dishMapper;
+        _stripeSrv=stripeSrv;
     }
 
     public DishDTO AddDish(AddDishDTO addDishDTO)
@@ -29,6 +31,9 @@ public class DishSrv : IDishSrv
         if (isNameTaken != null) throw new NameTakenException();
         var dishToAdd = _dishMapper.Map(addDishDTO);
 
+        var stripeProduct = _stripeSrv.CreateProduct(addDishDTO);
+
+        dishToAdd.Id = stripeProduct.Id;
         //uploading image
         if (addDishDTO.ProductImage != null)
         {
