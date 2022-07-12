@@ -39,7 +39,8 @@ const PaymentForm = () => {
   const elements = useElements();
   const dispatch = useDispatch();
   var credits: payment = {
-    PriceId: "price_1LJuAtA16oTjMyUCqtnZnGA1"
+    Id: 1,
+    CustomerId: 1
   }
 
   const handleSubmit = (stripe: any, elements: any) => async () => {

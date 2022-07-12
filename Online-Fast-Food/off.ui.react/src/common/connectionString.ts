@@ -7,11 +7,11 @@ export const api = axios.create({
     withCredentials: true,
   });
 
-  // api.interceptors.request.use((request: any) => {
-  //   var token = localStorage.getItem("userToken");
-  //   request.headers.Authorization = `Bearer ${token}`;
-  //   return request;
-  // });
+  api.interceptors.request.use((request: any) => {
+    var token = localStorage.getItem("userToken");
+    request.headers.Authorization = `Bearer ${token}`;
+    return request;
+  });
 
   // api.interceptors.response.use(
   //   (response) => {

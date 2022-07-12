@@ -1,7 +1,9 @@
 export default interface pay{
-  PriceId: string;
+  Id: number;
+  CustomerId: number;
 }
 
 export const payment: pay = {
-  PriceId: ""
+  Id: 0,
+  CustomerId: 0
 }

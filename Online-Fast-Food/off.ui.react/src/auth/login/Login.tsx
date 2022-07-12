@@ -56,12 +56,13 @@ export const Login = () => {
     const handleSubmit = (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
-        event.preventDefault();
-        for (let [key, value] of Object.entries(credits)) {
-            if (!loginValidator(key, value)) {
-                return;
-            }
-        }
+        // event.preventDefault();
+        // for (let [key, value] of Object.entries(credits)) {
+        //     if (!loginValidator(key, value)) {
+        //         return;
+        //     }
+        // }
+        console.log("dispacz")
         dispatch(loginAction(credits));
     };
 

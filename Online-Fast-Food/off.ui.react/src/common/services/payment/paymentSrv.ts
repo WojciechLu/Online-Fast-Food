@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useStripe } from "@stripe/react-stripe-js";
 import payment from "../../models/payment/pay";
 
-const controllerPath = "Payments/";
+const controllerPath = "Order/";
 
 
 export const paymentSrv = {
@@ -14,10 +14,9 @@ export const paymentSrv = {
           const stripePromise = loadStripe("pk_test_51LHiyMA16oTjMyUCuUwCdk45AuV4EHhyWfBGAPlSv2MqJu0kP9Kietirf0CSSZ1u6yuJqVYIDdEEFghVqlMrDpya007FDcTptt");
           const stripe = await stripePromise;
           return await api
-            .post(controllerPath + "create-checkout-session", credits)
+            .post(controllerPath + "payForOrder", credits)
             .then((r) => r.data)
             .then((session) => {
-              console.log("sesja!!")
               stripe!.redirectToCheckout(session);
             });
         } catch (e) {
