@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OFF.Domain.Common.Models.Dish;
-
-public class DishIdDTO
+namespace OFF.Domain.Common.Models.Payment;
+public class PriceDTO
 {
-    public int AdminId { get; set; }
-    public string Id { get; set; }
+    [Required] public int Price { get; set; }
 }

@@ -16,11 +16,13 @@ public class DishSrv : IDishSrv
 {
     private readonly OFFDbContext _dbContext;
     private readonly DishMapper _dishMapper;
+    private readonly IStripeSrv _stripeSrv;
 
-    public DishSrv(OFFDbContext dbContext, DishMapper dishMapper)
+    public DishSrv(OFFDbContext dbContext, DishMapper dishMapper, IStripeSrv stripeSrv)
     {
         _dbContext=dbContext;
         _dishMapper=dishMapper;
+        _stripeSrv=stripeSrv;
     }
 
     public DishDTO AddDish(AddDishDTO addDishDTO)
@@ -29,6 +31,9 @@ public class DishSrv : IDishSrv
         if (isNameTaken != null) throw new NameTakenException();
         var dishToAdd = _dishMapper.Map(addDishDTO);
 
+        var stripeProduct = _stripeSrv.CreateProduct(addDishDTO);
+
+        dishToAdd.Id = stripeProduct.Id;
         //uploading image
         if (addDishDTO.ProductImage != null)
         {
@@ -49,7 +54,9 @@ public class DishSrv : IDishSrv
             dishToAdd.ProductImage = image;
         }
 
+        _dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT OFFDb.Dishes ON;");
         _dbContext.Dishes.Add(dishToAdd);
+        _dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT OFFDb.Dishes OFF;");
         _dbContext.SaveChanges();
 
         AddCategory(addDishDTO.CategoriesName, dishToAdd.Id);
@@ -188,7 +195,7 @@ public class DishSrv : IDishSrv
         return dishDTO;
     }
 
-    private void AddCategory(ICollection<String> Categories, int DishId)
+    private void AddCategory(ICollection<String> Categories, string DishId)
     {
         var dish = _dbContext.Dishes.FirstOrDefault(d => d.Id == DishId);
         if (dish.Categories == null) dish.Categories = new List<Category>();

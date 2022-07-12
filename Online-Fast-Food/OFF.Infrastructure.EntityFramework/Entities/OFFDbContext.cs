@@ -45,14 +45,14 @@ public class OFFDbContext : DbContext
 
         modelBuilder.Entity<DishOrder>()
             .HasKey(dishO => new { dishO.DishId, dishO.OrderId });
-        modelBuilder.Entity<DishOrder>()
-            .HasOne(dishO => dishO.Dish)
-            .WithMany(d => d.Ordered)
-            .HasForeignKey(dishO => dishO.DishId);
-        modelBuilder.Entity<DishOrder>()
-            .HasOne(dishO => dishO.Order)
-            .WithMany(o => o.Dishes)
-            .HasForeignKey(dishO => dishO.OrderId);
+        //modelBuilder.Entity<DishOrder>()
+        //    .HasOne(dishO => dishO.Dish)
+        //    .WithMany(d => d.Ordered)
+        //    .HasForeignKey(dishO => dishO.DishId);
+        //modelBuilder.Entity<DishOrder>()
+        //    .HasOne(dishO => dishO.Order)
+        //    .WithMany(o => o.Dishes)
+        //    .HasForeignKey(dishO => dishO.OrderId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
