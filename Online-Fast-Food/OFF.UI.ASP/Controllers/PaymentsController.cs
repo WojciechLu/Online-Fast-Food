@@ -14,13 +14,13 @@ namespace Online_Fast_Food.UI.ASP.Controllers;
 [ApiController]
 public class PaymentsController : Controller
 {
-	public PaymentsController()
-	{
+    public PaymentsController()
+    {
 		StripeConfiguration.ApiKey = "sk_test_51LHiyMA16oTjMyUCI8vFgW2roVUHVnFas4DLZ8tKVmhbEaKZaYjRrwm3Xkco8mSAVKItXIYq1E0MSQOxGvRHeOq400zVqmBSCi";
 	}
 
 	[HttpPost("create-checkout-session")]
-	public async Task<ActionResult> CreateCheckoutSessionAsync([FromBody] CreateCheckoutSessionRequest req)
+    public async Task<ActionResult> CreateCheckoutSessionAsync([FromBody] CreateCheckoutSessionRequest req)
 	{
 		req.PriceId = "price_1LJuAtA16oTjMyUCqtnZnGA1";
 		var options = new SessionCreateOptions
@@ -63,14 +63,5 @@ public class PaymentsController : Controller
 				}
 			});
 		}
-	}
-
-	[HttpPost("list")]
-	public async Task<ActionResult> CreatePrice([FromBody] PriceDTO price)
-	{
-		var options = new PriceListOptions { Limit = 3 };
-		var service = new PriceService();
-		StripeList<Price> prices = service.List(options);
-		return Ok(prices);
 	}
 }
