@@ -29,4 +29,10 @@ public class OrderController : ControllerBase
         var result = await _orderSrv.PayForOrder(orderIdDTO);
         return Ok(result);
     }
+
+    [HttpPost("completeOrder")]
+    public ActionResult CompleteOrder([FromBody] OrderIdDTO orderIdDTO)
+    {
+        return Ok(_orderSrv.CompleteOrder(orderIdDTO));
+    }
 }

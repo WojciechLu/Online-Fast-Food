@@ -1,4 +1,5 @@
 ﻿using OFF.Domain.Common.Models.Dish;
+using OFF.Domain.Common.Models.Order;
 using OFF.Infrastructure.EntityFramework.Entities;
 using System;
 using System.Collections.Generic;
@@ -77,5 +78,20 @@ public class DishMapper
             Price = addDishDTO.Price,
             Avaible = true
         };
+    }
+
+    public List<ItemDTO> Map(Dictionary<Dish, int> orders)
+    {
+        var list = new List<ItemDTO>();
+        foreach(var order in orders)
+        {
+            var i = new ItemDTO()
+            {
+                Dish = Map(order.Key),
+                Quantity = order.Value,
+            };
+            list.Add(i);
+        }
+        return list;
     }
 }

@@ -12,4 +12,5 @@ public interface IOrderSrv
 {
     OrderDTO CreateOrder(CreateOrderDTO createOrder);
     Task<CreateCheckoutSessionResponse> PayForOrder(OrderIdDTO orderIdDTO);
+    OrderDTO CompleteOrder(OrderIdDTO orderIdDTO);
 }

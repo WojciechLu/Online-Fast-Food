@@ -1,4 +1,5 @@
-﻿using OFF.Domain.Common.Models.Order;
+﻿using Microsoft.EntityFrameworkCore;
+using OFF.Domain.Common.Models.Order;
 using OFF.Domain.Common.Models.Payment;
 using OFF.Domain.Interfaces.Infrastructure;
 using OFF.Infrastructure.EntityFramework.Entities;
@@ -15,13 +16,15 @@ public class OrderSrv : IOrderSrv
 {
     private readonly OFFDbContext _dbContext;
     private readonly OrderMapper _orderMapper;
+    private readonly DishMapper _dishMapper;
     private readonly IStripeSrv _stripeSrv;
 
-    public OrderSrv(OFFDbContext dbContext, OrderMapper orderMapper, IStripeSrv stripeSrv)
+    public OrderSrv(OFFDbContext dbContext, OrderMapper orderMapper, IStripeSrv stripeSrv, DishMapper dishMapper)
     {
         _dbContext=dbContext;
         _orderMapper=orderMapper;
         _stripeSrv=stripeSrv;
+        _dishMapper=dishMapper;
     }
 
     public OrderDTO CreateOrder(CreateOrderDTO createOrder)
@@ -33,7 +36,9 @@ public class OrderSrv : IOrderSrv
         _dbContext.Orders.Add(order);
         _dbContext.SaveChanges();
 
-        var orderDTO = _orderMapper.Map(order);
+        var emptyList = new List<ItemDTO>();
+
+        var orderDTO = _orderMapper.Map(order, emptyList);
         return orderDTO;
     }
 
@@ -50,5 +55,27 @@ public class OrderSrv : IOrderSrv
         }
         var result = await _stripeSrv.CreateCheckOutAsync(payForOrder);
         return result;
+    }
+
+    public OrderDTO CompleteOrder(OrderIdDTO orderIdDTO)
+    {
+        var order = _dbContext.Orders.Include(o => o.Dishes).FirstOrDefault(o => o.Id == orderIdDTO.Id && o.Completed == false);
+        order.Completed = true;
+
+        var dishesOnOrder = _dbContext.DishOrders.Include(x => x.Dish).Where(x => x.OrderId == orderIdDTO.Id);
+        var itemList = new Dictionary<Dish, int>();
+
+        foreach(var dish in dishesOnOrder)
+        {
+            var i = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dish.DishId);
+            itemList.Add(i, dish.Quantity);
+            order.TotalPrice += i.Price * dish.Quantity;
+        }
+
+        _dbContext.Orders.Update(order);
+        _dbContext.SaveChanges();
+        var itemListDTO = _dishMapper.Map(itemList);
+        var orderDTO = _orderMapper.Map(order, itemListDTO);
+        return orderDTO;
     }
 }
