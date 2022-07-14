@@ -11,4 +11,5 @@ public class AddToOrderDTO
     public int CustomerId { get; set; }
     public int OrderId { get; set; }
     public string DishId { get; set; }
+    public int? Quantity { get; set; }
 }

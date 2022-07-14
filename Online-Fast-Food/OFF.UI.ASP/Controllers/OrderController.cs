@@ -35,4 +35,10 @@ public class OrderController : ControllerBase
     {
         return Ok(_orderSrv.CompleteOrder(orderIdDTO));
     }
+
+    [HttpPost("makeOrder")]
+    public ActionResult MakeOrder([FromBody] MakeOrderDTO makeOrderDTO)
+    {
+        return Ok(_orderSrv.MakeOrder(makeOrderDTO));
+    }
 }

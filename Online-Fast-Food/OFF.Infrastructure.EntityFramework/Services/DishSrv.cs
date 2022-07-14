@@ -238,7 +238,7 @@ public class DishSrv : IDishSrv
                 DishId = dish.Id,
                 Order = order,
                 OrderId = order.Id,
-                Quantity = 1
+                Quantity = addToOrder.Quantity ?? 1,
             };
             _dbContext.DishOrders.Add(dishOrder);
             order.Dishes.Add(dishOrder);

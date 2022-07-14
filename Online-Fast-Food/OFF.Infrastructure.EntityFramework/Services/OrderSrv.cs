@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OFF.Domain.Common.Models.Dish;
 using OFF.Domain.Common.Models.Order;
 using OFF.Domain.Common.Models.Payment;
 using OFF.Domain.Interfaces.Infrastructure;
@@ -18,13 +19,15 @@ public class OrderSrv : IOrderSrv
     private readonly OrderMapper _orderMapper;
     private readonly DishMapper _dishMapper;
     private readonly IStripeSrv _stripeSrv;
+    private readonly IDishSrv _dishSrv;
 
-    public OrderSrv(OFFDbContext dbContext, OrderMapper orderMapper, IStripeSrv stripeSrv, DishMapper dishMapper)
+    public OrderSrv(OFFDbContext dbContext, OrderMapper orderMapper, IStripeSrv stripeSrv, DishMapper dishMapper, IDishSrv dishSrv)
     {
-        _dbContext=dbContext;
-        _orderMapper=orderMapper;
-        _stripeSrv=stripeSrv;
-        _dishMapper=dishMapper;
+        _dbContext = dbContext;
+        _orderMapper = orderMapper;
+        _stripeSrv = stripeSrv;
+        _dishMapper = dishMapper;
+        _dishSrv = dishSrv;
     }
 
     public OrderDTO CreateOrder(CreateOrderDTO createOrder)
@@ -65,7 +68,7 @@ public class OrderSrv : IOrderSrv
         var dishesOnOrder = _dbContext.DishOrders.Include(x => x.Dish).Where(x => x.OrderId == orderIdDTO.Id);
         var itemList = new Dictionary<Dish, int>();
 
-        foreach(var dish in dishesOnOrder)
+        foreach (var dish in dishesOnOrder)
         {
             var i = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dish.DishId);
             itemList.Add(i, dish.Quantity);
@@ -77,5 +80,38 @@ public class OrderSrv : IOrderSrv
         var itemListDTO = _dishMapper.Map(itemList);
         var orderDTO = _orderMapper.Map(order, itemListDTO);
         return orderDTO;
+    }
+
+    public OrderDTO MakeOrder(MakeOrderDTO makeOrderDTO)
+    {
+        var customerId = new CreateOrderDTO { CustomerId = makeOrderDTO.CustomerId };
+        var orderId = CreateOrder(customerId).OrderId;
+        var dishDictionary = new Dictionary<Dish, int>();
+        var order = _dbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+
+        foreach (var product in makeOrderDTO.ProductIdAndQuantity)
+        {
+            var dish = _dbContext.Dishes.FirstOrDefault(d => d.Id == product.Key);
+            dishDictionary.Add(dish, product.Value);
+
+            var i = new AddToOrderDTO
+            {
+                CustomerId = customerId.CustomerId,
+                OrderId = orderId,
+                DishId = product.Key,
+                Quantity = product.Value
+            };
+            _dishSrv.AddToOrder(i);
+        }
+
+        var orderIdDTO = new OrderIdDTO
+        {
+            CustomerId = customerId.CustomerId,
+            Id = orderId
+        };
+
+        var listItemDTO = _dishMapper.Map(dishDictionary);
+        var result = _orderMapper.Map(order, listItemDTO);
+        return result;
     }
 }

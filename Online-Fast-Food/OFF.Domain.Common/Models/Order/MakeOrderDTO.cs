@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OFF.Domain.Common.Models.Order;
-
-public class OrderDTO
+public class MakeOrderDTO
 {
-    public int OrderId { get; set; }
     public int CustomerId { get; set; }
-    public List<ItemDTO> Dishes { get; set; }
+    public Dictionary<string, int> ProductIdAndQuantity { get; set; }
 }
