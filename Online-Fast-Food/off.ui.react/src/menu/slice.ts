@@ -11,7 +11,7 @@ export const menuSlice = createSlice({
     builder
       .addCase(getAvailableDishesAction.fulfilled, (state, action) => {
         if (action.payload !== undefined) {
-          state.dishes = action.payload;
+          state.dishesByCategory = action.payload;
         }
       })
   },

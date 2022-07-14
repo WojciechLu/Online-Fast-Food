@@ -1,9 +1,16 @@
 import dish from "./dish";
 
-export default interface dishes {
-  dishes: dish[];
+export default interface Dictionary<V> {
+  [Key: string] : V
 }
 
-export const initialState: dishes = {
-  dishes: [],
+// export interface menuInterface{
+//   dishesByCategory: Dictionary<dish[]>
+// }
+
+// export const initialState: menuInterface = {
+//   dishesByCategory: {},
+// };
+export const initialState: Dictionary<dish[]> = {
+
 };

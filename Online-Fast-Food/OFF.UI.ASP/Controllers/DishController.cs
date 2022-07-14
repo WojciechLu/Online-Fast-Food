@@ -41,42 +41,42 @@ public class DishController : ControllerBase
     [Authorize(Roles = "Admin")]
     public ActionResult GetDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
     {
-        return Ok(_dishSrv.GetDishesByCategory(getDishDTO));
+        return Ok(_dishSrv.GetDishesByCategory(getDishDTO).DishesByCategory);
     }
 
     [HttpPost("getDishes")]
     [Authorize(Roles = "Admin")]
     public ActionResult GetDishes()
     {
-        return Ok(_dishSrv.GetDishes());
+        return Ok(_dishSrv.GetDishes().DishesByCategory);
     }
 
     [HttpPost("getAvailableDishesByCategory")]
     [AllowAnonymous]
     public ActionResult GetAvailableDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
     {
-        return Ok(_dishSrv.GetAvailableDishesByCategory(getDishDTO));
+        return Ok(_dishSrv.GetAvailableDishesByCategory(getDishDTO).DishesByCategory);
     }
 
     [HttpPost("getAvailableDishes")]
     [AllowAnonymous]
     public ActionResult GetAvailableDishes()
     {
-        return Ok(_dishSrv.GetAvailableDishes());
+        return Ok(_dishSrv.GetAvailableDishes().DishesByCategory);
     }
 
     [HttpPost("getUnavailableDishesByCategory")]
     [Authorize(Roles = "Admin")]
     public ActionResult GetUnavailableDishesByCategory([FromBody] GetDishCategoryDTO getDishDTO)
     {
-        return Ok(_dishSrv.GetUnavailableDishesByCategory(getDishDTO));
+        return Ok(_dishSrv.GetUnavailableDishesByCategory(getDishDTO).DishesByCategory);
     }
 
     [HttpPost("getUnavailableDishes")]
     [Authorize(Roles = "Admin")]
     public ActionResult GetUnavailableDishes()
     {
-        return Ok(_dishSrv.GetUnavailableDishes());
+        return Ok(_dishSrv.GetUnavailableDishes().DishesByCategory);
     }
 
     [HttpPost("removeDishFromMenu")]
