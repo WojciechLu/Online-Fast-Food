@@ -100,28 +100,28 @@ public class DishSrv : IDishSrv
         return editedDishDTO;
     }
 
-    public DishesDTO GetAvailableDishes()
+    public GetMenuDTO GetAvailableDishes()
     {
         var list = GetDishes();
         var newList = CheckDishes(list, true);
         return newList;
     }
 
-    public DishesDTO GetAvailableDishesByCategory(GetDishCategoryDTO getDishDTO)
+    public GetMenuDTO GetAvailableDishesByCategory(GetDishCategoryDTO getDishDTO)
     {
         var list = GetDishesByCategory(getDishDTO);
         var newList = CheckDishes(list, true);
         return newList;
     }
 
-    public DishesDTO GetUnavailableDishes()
+    public GetMenuDTO GetUnavailableDishes()
     {
         var list = GetDishes();
         var newList = CheckDishes(list, false);
         return newList;
     }
 
-    public DishesDTO GetUnavailableDishesByCategory(GetDishCategoryDTO getDishDTO)
+    public GetMenuDTO GetUnavailableDishesByCategory(GetDishCategoryDTO getDishDTO)
     {
         var list = GetDishesByCategory(getDishDTO);
         var newList = CheckDishes(list, false);
@@ -136,36 +136,41 @@ public class DishSrv : IDishSrv
         return dishDTO;
     }
 
-    public DishesDTO GetDishes()
+    public GetMenuDTO GetDishes()
     {
-        var categories = _dbContext.Categories.Include(c => c.Dishes).ToArray();
+        var categories = _dbContext.Categories.Include(c => c.Dishes).ThenInclude(d => d.Categories).ToArray();
 
-        var listOfDishes = new DishesDTO();
-        listOfDishes.Dishes = new List<DishDTO>();
+        var listOfDishes = new GetMenuDTO();
+        listOfDishes.DishesByCategory = new Dictionary<string, List<DishDTO>>(); 
+
 
         foreach(var category in categories)
         {
-            foreach(var dish in category.Dishes)
+            var dishesInCategory = new List<DishDTO>();
+            foreach (var dish in category.Dishes)
             {
-                var i = _dishMapper.Map(dish,category.Name);
-                listOfDishes.Dishes.Add(i);
+                var i = _dishMapper.Map(dish);
+                dishesInCategory.Add(i);
             }
+            listOfDishes.DishesByCategory.Add(category.Name, dishesInCategory);
         }
         return listOfDishes;
     }
 
-    public DishesDTO GetDishesByCategory(GetDishCategoryDTO getDishDTO)
+    public GetMenuDTO GetDishesByCategory(GetDishCategoryDTO getDishDTO)
     {
-        var list = _dbContext.Categories.Include(c => c.Dishes).FirstOrDefault(c => c.Name == getDishDTO.Name).Dishes;
+        var list = _dbContext.Categories.Include(c => c.Dishes).FirstOrDefault(c => c.Name == getDishDTO.CategoryName).Dishes;
 
-        var listOfDishes = new DishesDTO();
-        listOfDishes.Dishes = new List<DishDTO>();
+        var menuByCategory = new GetMenuDTO();
+        menuByCategory.DishesByCategory = new Dictionary<string, List<DishDTO>>();
+        var listOfDishes = new List<DishDTO>();
         foreach (var dish in list)
         {
             var i = _dbContext.Dishes.Include(d => d.Categories).FirstOrDefault(d => d.Id == dish.Id);
-            listOfDishes.Dishes.Add(_dishMapper.Map(i));
+            listOfDishes.Add(_dishMapper.Map(i));
         }
-        return listOfDishes;
+        menuByCategory.DishesByCategory.Add(getDishDTO.CategoryName, listOfDishes);
+        return menuByCategory;
     }
 
     public DishDTO RemoveDishFromMenu(DishIdDTO dishId)
@@ -207,13 +212,18 @@ public class DishSrv : IDishSrv
         _dbContext.SaveChanges();
     }
 
-    private DishesDTO CheckDishes(DishesDTO list, bool check)
+    private GetMenuDTO CheckDishes(GetMenuDTO list, bool check)
     {
-        var newList = new DishesDTO();
-        newList.Dishes = new List<DishDTO>();
-        foreach (var dish in list.Dishes)
+        var newList = new GetMenuDTO();
+        newList.DishesByCategory = new Dictionary<string, List<DishDTO>>();
+        foreach (var pair in list.DishesByCategory)
         {
-            if (dish.Avaible == check) newList.Dishes.Add(dish);
+            var dishesInCategory = new List<DishDTO>();
+            foreach (var dish in pair.Value)
+            {
+                if (dish.Avaible == check) dishesInCategory.Add(dish);
+            }
+            newList.DishesByCategory.Add(pair.Key, dishesInCategory);
         }
         return newList;
     }

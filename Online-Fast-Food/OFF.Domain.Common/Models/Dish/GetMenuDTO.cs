@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace OFF.Domain.Common.Models.Dish;
 public class GetMenuDTO
 {
-    public Dictionary<string, int> DishesByCategory { get; set; }
+    public Dictionary<string, List<DishDTO>> DishesByCategory { get; set; }
 }
