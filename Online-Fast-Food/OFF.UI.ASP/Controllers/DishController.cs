@@ -7,7 +7,6 @@ namespace Online_Fast_Food.UI.ASP.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin, User")]
 
 public class DishController : ControllerBase
 {
@@ -95,6 +94,7 @@ public class DishController : ControllerBase
     }
 
     [HttpPost("addToOrder")]
+    [Authorize(Roles = "Admin, User")]
     public ActionResult AddToOrder([FromBody] AddToOrderDTO addToOrder)
     {
         return Ok(_dishSrv.AddToOrder(addToOrder));

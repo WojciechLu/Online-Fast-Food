@@ -28,7 +28,7 @@ public class StripeSrv : IStripeSrv
         var options = new SessionCreateOptions
         {
             SuccessUrl = "http://localhost:2137/api/Order/completeOrder",
-            CancelUrl = "http://localhost:4200/smutnaStronaOBłędzie(nie_mylic_z_wykladowca)",
+            CancelUrl = "http://localhost:4200/smutnaStronaOBledzie",
             PaymentMethodTypes = new List<string>
                 {
                     "card",

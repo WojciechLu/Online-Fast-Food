@@ -8,7 +8,9 @@ import { useAppSelector } from "../common/store/rootReducer";
 import { SelectUser } from "../auth/slice";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import { StripePaymentForm } from "../payment/Payment";
+import { Menu } from "../menu/Menu";
 
 export const NavbarRouter = () => {
   const navigate = useNavigate();
@@ -37,6 +39,10 @@ export const NavbarRouter = () => {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Nav.Link href="/">Home</Nav.Link>
+              <Link to="/menu">
+                <RestaurantMenuIcon />
+                <span>Menu</span>
+              </Link>
             {!isLogged && (
               <Link to="/login">
                 <LoginIcon />
@@ -66,6 +72,7 @@ export const NavbarRouter = () => {
       <Routes>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/menu" element={<Menu />}></Route>
         <Route path="/payment" element={<StripePaymentForm />}></Route>
         <Route path="/" element={<Home />}></Route>
       </Routes>

@@ -62,7 +62,6 @@ export const Login = () => {
         //         return;
         //     }
         // }
-        console.log("dispacz")
         dispatch(loginAction(credits));
     };
 

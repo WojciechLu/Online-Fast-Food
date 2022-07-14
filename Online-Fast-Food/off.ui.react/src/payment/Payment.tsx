@@ -61,7 +61,7 @@ const PaymentForm = () => {
   return (
     <>
       <h1>stripe form</h1>
-      <CardElement />
+      {/* <CardElement /> */}
       <button onClick={handleSubmit(stripe, elements)}>Buy</button>
     </>
   );
