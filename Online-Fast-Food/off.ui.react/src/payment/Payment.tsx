@@ -51,7 +51,7 @@ const PaymentForm = () => {
   );
 }
 
-export const StripePaymentForm  = (props: payForOrder) => (
+export const StripePaymentForm  = () => (
   <Elements stripe={stripePromise}>
     <PaymentForm/>
   </Elements>
