@@ -1,25 +1,3 @@
-// import { WindowSharp } from "@mui/icons-material";
-// import { useDispatch } from "react-redux";
-// import { SubmitButton } from "../common/components/buttons/submitButton";
-// import { RegisterFormContainer } from "../common/components/containers/registerFormContainer";
-// import { paymentAction } from "./action";
-
-// export const Payment = () => {
-//     const dispatch = useDispatch();
-//     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-//         // dispatch(paymentAction());
-//     };
-
-//     return (
-//         <RegisterFormContainer>
-//             <p>Payment</p>
-//             <SubmitButton onClick={(e) => handleSubmit(e)}>
-//                 Pay
-//             </SubmitButton>
-//         </RegisterFormContainer>
-//     );
-// }
-
 import {
   Elements,
   CardElement,
@@ -29,6 +7,8 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { payForOrder } from "../common/models/order/payForOrder";
 import payment from "../common/models/payment/pay";
 import { paymentAction } from "./action";
 
@@ -38,10 +18,14 @@ const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
+  const location = useLocation();
+  let pay: payForOrder = location.state as payForOrder
   var credits: payment = {
-    Id: 1,
-    CustomerId: 1
+    Id: pay.Id,
+    CustomerId: pay.CustomerId
   }
+  
+  console.log(pay)
 
   const handleSubmit = (stripe: any, elements: any) => async () => {
     const cardElement = elements.getElement(CardElement);
@@ -61,14 +45,14 @@ const PaymentForm = () => {
   return (
     <>
       <h1>stripe form</h1>
-      {/* <CardElement /> */}
+      { <CardElement /> }
       <button onClick={handleSubmit(stripe, elements)}>Buy</button>
     </>
   );
 }
 
-export const StripePaymentForm  = () => (
+export const StripePaymentForm  = (props: payForOrder) => (
   <Elements stripe={stripePromise}>
-    <PaymentForm />
+    <PaymentForm/>
   </Elements>
 );

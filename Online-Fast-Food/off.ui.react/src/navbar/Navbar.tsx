@@ -8,9 +8,11 @@ import { useAppSelector } from "../common/store/rootReducer";
 import { SelectUser } from "../auth/slice";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import { StripePaymentForm } from "../payment/Payment";
 import { Menu } from "../menu/Menu";
+import { Order } from "../order/Order";
 
 export const NavbarRouter = () => {
   const navigate = useNavigate();
@@ -43,6 +45,10 @@ export const NavbarRouter = () => {
                 <RestaurantMenuIcon />
                 <span>Menu</span>
               </Link>
+              <Link to="/Order">
+                <ReceiptLongIcon />
+                <span>Order</span>
+              </Link>
             {!isLogged && (
               <Link to="/login">
                 <LoginIcon />
@@ -73,6 +79,7 @@ export const NavbarRouter = () => {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/menu" element={<Menu />}></Route>
+        <Route path="/order" element={<Order />}></Route>
         <Route path="/payment" element={<StripePaymentForm />}></Route>
         <Route path="/" element={<Home />}></Route>
       </Routes>
