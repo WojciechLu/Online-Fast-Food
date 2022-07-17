@@ -18,14 +18,20 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
         var user = (UserAuthorizeDTO)context.HttpContext.Items["User"];
         if (user == null)
+        {
             context.Result = new JsonResult(new { message = "Unauthorized" })
             { StatusCode = StatusCodes.Status401Unauthorized };
+            return;
+        }
 
         if (Roles != null)
         {
             if (!Roles.Contains(user?.Role))
+            {
                 context.Result = new JsonResult(new { message = "Unauthorized" })
                 { StatusCode = StatusCodes.Status401Unauthorized };
+                return;
+            }
         }
         int adminId, customerId;
         var body = context.HttpContext.Request.PeekBody();

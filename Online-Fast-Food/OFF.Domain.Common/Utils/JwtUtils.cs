@@ -30,7 +30,7 @@ public class JwtUtils : IJwtUtils
         var claims = new List<Claim>
         {
             new("id", user.Id.ToString()),
-            new("role", user.Role),
+            //new("role", user.Role),
             new(ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
         };
 
