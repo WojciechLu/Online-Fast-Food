@@ -41,10 +41,10 @@ export const Menu = () => {
                         else description = dishes.description;
                         return (
                           <DishContainer>
-                            <h2>{dishes.name}</h2>
-                            <img src={`data:image/jpeg;base64,${dishes.productImage}`} />
-                            <p>{description}</p>
-                            <PriceButton>{dishes.price}</PriceButton>
+                            <h2 className="dishName">{dishes.name}</h2>
+                            <img className="dishImg" src={`data:image/jpeg;base64,${dishes.productImage}`} />
+                            <p className="dishDescription">{description}</p>
+                            <PriceButton>{dishes.price} PLN</PriceButton>
                           </DishContainer>
                         )
                       }

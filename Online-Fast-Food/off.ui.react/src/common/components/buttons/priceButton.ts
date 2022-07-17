@@ -2,16 +2,15 @@ import styled from "styled-components";
 
 export const PriceButton = styled.button`
    &&&{
-        width:20em;
-        border-radius:10rem; 
-        height:2rem;
-        margin:0.3rem;
+        width:100%;
+        height:60%;
+        border-radius:10rem;
+        margin: auto;
         padding:0.5rem; 
         background-color:white; 
         border:none;
-        position: absolute;
-        right: 1rem;
-        bottom: 1rem;
+        display: inline-flex;
+        align-items: center; 
         :hover{
             cursor: pointer;
             background-color:#eeeeee;
