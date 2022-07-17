@@ -1,8 +1,12 @@
-﻿{
+{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://localhost",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:9173",
       "sslPort": 44312
@@ -11,13 +15,13 @@
   "profiles": {
     "Online_Fast_Food.UI.ASP": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7037;http://localhost:5037",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:7037;http://localhost:5037",
+      "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",

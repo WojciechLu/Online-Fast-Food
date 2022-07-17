@@ -4,23 +4,23 @@
 
 namespace OFF.Infrastructure.EntityFramework.Migrations
 {
-    public partial class Addcollumnavaibletodish : Migration
+    public partial class addtotalPricefieldtoorder : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "Avaible",
-                table: "Dishes",
-                type: "bit",
+            migrationBuilder.AddColumn<float>(
+                name: "TotalPrice",
+                table: "Orders",
+                type: "real",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: 0f);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Avaible",
-                table: "Dishes");
+                name: "TotalPrice",
+                table: "Orders");
         }
     }
 }

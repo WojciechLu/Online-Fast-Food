@@ -9,5 +9,5 @@ namespace OFF.Domain.Common.Models.Dish;
 public class GetDishCategoryDTO
 {
     public int CustomerId { get; set; }
-    public string Name { get; set; }
+    public string CategoryName { get; set; }
 }

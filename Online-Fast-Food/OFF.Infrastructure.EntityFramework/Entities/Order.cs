@@ -12,6 +12,7 @@ public class Order
     public int CustomerId { get; set; }
     public User Customer { get; set; }
     public bool Completed { get; set; } = false;
+    public float TotalPrice { get; set; }
 
     public ICollection<DishOrder> Dishes { get; set; }
 }

@@ -12,8 +12,8 @@ using OFF.Infrastructure.EntityFramework.Entities;
 namespace OFF.Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(OFFDbContext))]
-    [Migration("20220703101659_Add-collumn-avaible-to-dish")]
-    partial class Addcollumnavaibletodish
+    [Migration("20220712085739_Init db")]
+    partial class Initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,29 +29,14 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                     b.Property<int>("CategoriesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DishesId")
-                        .HasColumnType("int");
+                    b.Property<string>("DishesId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CategoriesId", "DishesId");
 
                     b.HasIndex("DishesId");
 
                     b.ToTable("CategoryDish");
-                });
-
-            modelBuilder.Entity("DishOrder", b =>
-                {
-                    b.Property<int>("DishesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderedId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DishesId", "OrderedId");
-
-                    b.HasIndex("OrderedId");
-
-                    b.ToTable("DishOrder");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Category", b =>
@@ -73,11 +58,8 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Dish", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Avaible")
                         .HasColumnType("bit");
@@ -101,6 +83,24 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                     b.ToTable("Dishes");
                 });
 
+            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.DishOrder", b =>
+                {
+                    b.Property<string>("DishId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("DishId", "OrderId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("DishOrders");
+                });
+
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -108,6 +108,9 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Completed")
+                        .HasColumnType("bit");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -185,19 +188,23 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DishOrder", b =>
+            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.DishOrder", b =>
                 {
-                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Dish", null)
-                        .WithMany()
-                        .HasForeignKey("DishesId")
+                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Dish", "Dish")
+                        .WithMany("Ordered")
+                        .HasForeignKey("DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrderedId")
+                    b.HasOne("OFF.Infrastructure.EntityFramework.Entities.Order", "Order")
+                        .WithMany("Dishes")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Order", b =>
@@ -220,6 +227,16 @@ namespace OFF.Infrastructure.EntityFramework.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Dish", b =>
+                {
+                    b.Navigation("Ordered");
+                });
+
+            modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.Order", b =>
+                {
+                    b.Navigation("Dishes");
                 });
 
             modelBuilder.Entity("OFF.Infrastructure.EntityFramework.Entities.User", b =>

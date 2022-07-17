@@ -12,12 +12,12 @@ public interface IDishSrv
     DishDTO AddDish(AddDishDTO addDishDTO);
     DishDTO EditDish(EditDishDTO editDishDTO);
     DishDTO GetDishById(DishIdDTO getDishDTO);
-    DishesDTO GetDishesByCategory(GetDishCategoryDTO getDishDTO);
-    DishesDTO GetDishes();
-    DishesDTO GetAvailableDishesByCategory(GetDishCategoryDTO getDishDTO);
-    DishesDTO GetAvailableDishes();
-    DishesDTO GetUnavailableDishesByCategory(GetDishCategoryDTO getDishDTO);
-    DishesDTO GetUnavailableDishes();
+    GetMenuDTO GetDishesByCategory(GetDishCategoryDTO getDishDTO);
+    GetMenuDTO GetDishes();
+    GetMenuDTO GetAvailableDishesByCategory(GetDishCategoryDTO getDishDTO);
+    GetMenuDTO GetAvailableDishes();
+    GetMenuDTO GetUnavailableDishesByCategory(GetDishCategoryDTO getDishDTO);
+    GetMenuDTO GetUnavailableDishes();
 
     DishDTO RemoveDishFromMenu(DishIdDTO dishId);
     DishDTO ReturnDishBackToMenu(DishIdDTO dishId);

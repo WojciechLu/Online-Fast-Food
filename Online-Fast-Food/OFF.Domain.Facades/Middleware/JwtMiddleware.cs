@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OFF.Domain.Common.Utils;
-using OFF.Domain.Interfaces.Facades;
 using OFF.Domain.Interfaces.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OFF.Domain.Facades.Middleware;
 

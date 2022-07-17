@@ -22,4 +22,23 @@ public class OrderController : ControllerBase
     {
         return Ok(_orderSrv.CreateOrder(createOrderDTO));
     }
+
+    [HttpPost("payForOrder")]
+    public async Task<ActionResult> PayForOrder([FromBody] OrderIdDTO orderIdDTO)
+    {
+        var result = await _orderSrv.PayForOrder(orderIdDTO);
+        return Ok(result);
+    }
+
+    [HttpPost("completeOrder")]
+    public ActionResult CompleteOrder([FromBody] OrderIdDTO orderIdDTO)
+    {
+        return Ok(_orderSrv.CompleteOrder(orderIdDTO));
+    }
+
+    [HttpPost("makeOrder")]
+    public ActionResult MakeOrder([FromBody] MakeOrderDTO makeOrderDTO)
+    {
+        return Ok(_orderSrv.MakeOrder(makeOrderDTO));
+    }
 }

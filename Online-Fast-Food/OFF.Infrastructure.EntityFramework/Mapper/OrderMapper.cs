@@ -10,12 +10,14 @@ namespace OFF.Infrastructure.EntityFramework.Mapper;
 
 public class OrderMapper
 {
-    public OrderDTO Map(Order entity)
+    public OrderDTO Map(Order entity, List<ItemDTO> items)
     {
+
         return new OrderDTO
         {
-            Id = entity.Id,
+            OrderId = entity.Id,
             CustomerId = entity.CustomerId,
+            Dishes = items,
         };
     }
 
@@ -29,4 +31,14 @@ public class OrderMapper
             Completed = false
         };
     }
+    //public OrderDTO Map(Order entity, List<ItemDTO> items)
+    //{
+
+    //    return new OrderDTO
+    //    {
+    //        OrderId = entity.Id,
+    //        CustomerId = entity.CustomerId,
+    //        Dishes = items,
+    //    };
+    //}
 }

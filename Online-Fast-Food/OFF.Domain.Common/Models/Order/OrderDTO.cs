@@ -8,7 +8,7 @@ namespace OFF.Domain.Common.Models.Order;
 
 public class OrderDTO
 {
-    public int Id { get; set; }
+    public int OrderId { get; set; }
     public int CustomerId { get; set; }
     public List<ItemDTO> Dishes { get; set; }
 }

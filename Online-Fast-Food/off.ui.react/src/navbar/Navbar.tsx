@@ -8,11 +8,19 @@ import { useAppSelector } from "../common/store/rootReducer";
 import { SelectUser } from "../auth/slice";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import { StripePaymentForm } from "../payment/Payment";
+import { Menu } from "../menu/Menu";
+import { Order } from "../order/Order";
+import { SelectOrder } from "../order/slice";
+import { OrderNavbarIcon } from "../common/components/containers/orderNavbarItem";
 
 export const NavbarRouter = () => {
   const navigate = useNavigate();
   const [isLogged, setIsLogged] = useState(false);
   let currentUser = useAppSelector((state) => SelectUser(state));
+  let currentOrder = useAppSelector((state) => SelectOrder(state));
 
   useEffect(() => {
     if (localStorage.getItem("userToken") !== null) {
@@ -36,22 +44,44 @@ export const NavbarRouter = () => {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/menu">
+              <RestaurantMenuIcon />
+              <span>Menu</span>
+            </Nav.Link>
+            <Nav.Link href="/Order">
+              {currentOrder.dishes.length > 0 && (
+                <OrderNavbarIcon>
+                  <ReceiptLongIcon />
+                  <div className="numberCircle">currentOrder.dishes.length</div>
+                </OrderNavbarIcon>
+              )}
+              {currentOrder.dishes.length === 0 && (
+                <ReceiptLongIcon />
+              )}
+              <span>Order</span>
+            </Nav.Link>
             {!isLogged && (
-              <Link to="/login">
+              <Nav.Link href="/login">
                 <LoginIcon />
                 <span>Sign in</span>
-              </Link>
+              </Nav.Link>
             )}
             {isLogged && (
-              <a onClick={handleLogout}>
-                <LogoutIcon />
-                <span>Sign out</span>
-              </a>
+              <>
+                <a onClick={handleLogout}>
+                  <LogoutIcon />
+                  <span>Sign out</span>
+                </a>
+
+                <Nav.Link href="/payment">
+                  <span>Payment</span>
+                </Nav.Link>
+              </>
             )}
             {currentUser.role === "Admin" && (
-              <Link to="/">
+              <Nav.Link href="/">
                 <span>ADMIN PANEL</span>
-              </Link>
+              </Nav.Link>
             )}
           </Navbar.Collapse>
         </Container>
@@ -59,6 +89,9 @@ export const NavbarRouter = () => {
       <Routes>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/menu" element={<Menu />}></Route>
+        <Route path="/order" element={<Order />}></Route>
+        <Route path="/payment" element={<StripePaymentForm />}></Route>
         <Route path="/" element={<Home />}></Route>
       </Routes>
     </>
