@@ -7,7 +7,7 @@ export const DishContainer = styled.div`
     overflow:hidden;
     display: grid;
     grid-template-columns: [line1] 10rem [line2] auto [line3] 10rem [end];
-    grid-template-rows: [line1] 2.2rem [line2] 4.8rem [line3] 3rem [end];
+    grid-template-rows: [line1] 2.2rem [line2] 4.8rem [line3] auto [end];
     border-radius: 0.45rem;
     .dishName{
         grid-column-start: line2;
@@ -47,6 +47,13 @@ export const DishContainer = styled.div`
         background: green;
         background-clip: content-box;
         border: 5px solid;
+    }
+
+    div{
+        grid-column-start: line2;
+        grid-column-end: line3;
+        grid-row-start: line3;
+        grid-row-end: end;
     }
 
     button{
