@@ -8,7 +8,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    loadLocalStorage(state) {
+    loadAuthLocalStorage(state) {
       if (localStorage.getItem("id") !== null) {
         state.id = parseInt(localStorage.getItem("id")!);
         state.lastName = localStorage.getItem("lastName")!;
@@ -62,7 +62,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { loadLocalStorage } = authSlice.actions;
+export const { loadAuthLocalStorage } = authSlice.actions;
 export default authSlice.reducer;
 
 export const SelectUser = (state: RootState) => {
