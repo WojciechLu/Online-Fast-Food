@@ -1,4 +1,6 @@
 import { api } from "../../connectionString"
+import dish from "../../models/menu/dish";
+import Dictionary from "../../models/menu/dishList";
 
 const controllerPath = "Dish/";
 
@@ -7,7 +9,7 @@ export const dishSrv = {
         try {
           return await api
             .post(controllerPath + "getAvailableDishes")
-            .then((r) => r.data);
+            .then((r) => r.data as Dictionary<dish[]>);
         } catch (e) {
           console.error(e);
         }
