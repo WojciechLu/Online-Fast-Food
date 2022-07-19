@@ -59,7 +59,7 @@ export const NavbarRouter = () => {
               {currentOrder.dishes.length > 0 && (
                 <OrderNavbarIcon>
                   <ReceiptLongIcon />
-                  <div className="numberCircle">currentOrder.dishes.length</div>
+                  <div className="numberCircle">{currentOrder.dishes.length}</div>
                 </OrderNavbarIcon>
               )}
               {currentOrder.dishes.length === 0 && (

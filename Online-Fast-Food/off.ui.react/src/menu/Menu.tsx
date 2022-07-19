@@ -9,13 +9,20 @@ import dish from "../common/models/menu/dish";
 import { useAppSelector } from "../common/store/rootReducer";
 import { getAvailableDishesAction } from "./getAvaibleDishes/action";
 import { SelectAllDishes } from "./selectors";
+import { addToOrder } from "../order/slice";
 
 export const Menu = () => {
   const dispatch = useDispatch();
-  //dispatch(getAvailableDishesAction())
   const dishes = useAppSelector((state) => SelectAllDishes(state)).dishesByCategory;
+
   const handleSubmit = () => async () => {
     dispatch(getAvailableDishesAction())
+  };
+
+  const handleAdd = (dish: dish) => {
+    let indexOfId: number;
+    indexOfId = Object.keys(dish).indexOf('id');
+    dispatch(addToOrder(dish));
   };
 
   return (
@@ -39,18 +46,17 @@ export const Menu = () => {
                         let description;
                         if (dishes.description === null) description = "Lorem ipsum dolor sit amet, consectetur."
                         else description = dishes.description;
-                        console.log(dishes.categories);
                         return (
                           <DishContainer>
                             <h2 className="dishName">{dishes.name}</h2>
                             <img className="dishImg" src={`data:image/jpeg;base64,${dishes.productImage}`} />
                             <p className="dishDescription">{description}</p>
                             <CategoriesContainer>
-                            {dishes.categories.map((category: string) => {
-                              return <div className="dishCategory">{category}</div>
-                            })}
+                              {dishes.categories.map((category: string) => {
+                                return <div className="dishCategory">{category}</div>
+                              })}
                             </CategoriesContainer>
-                            <PriceButton>{dishes.price} PLN</PriceButton>
+                            <PriceButton onClick={() => handleAdd(dishes)}>{dishes.price} PLN</PriceButton>
                           </DishContainer>
                         )
                       }
