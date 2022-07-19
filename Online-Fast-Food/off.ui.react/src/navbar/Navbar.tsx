@@ -13,7 +13,7 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import { StripePaymentForm } from "../payment/Payment";
 import { Menu } from "../menu/Menu";
 import { Order } from "../order/Order";
-import { SelectOrder } from "../order/slice";
+import { loadOrderLocalStorage, SelectOrder } from "../order/slice";
 import { OrderNavbarIcon } from "../common/components/containers/orderNavbarItem";
 import { store } from "..";
 import { loadMenuLocalStorage } from "../menu/slice";
@@ -27,6 +27,7 @@ export const NavbarRouter = () => {
   useEffect(() => {
     store.dispatch(loadMenuLocalStorage());
     store.dispatch(loadAuthLocalStorage());
+    store.dispatch(loadOrderLocalStorage());
   }, []);
 
   useEffect(() => {

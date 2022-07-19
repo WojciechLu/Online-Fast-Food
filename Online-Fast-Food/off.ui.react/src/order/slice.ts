@@ -16,12 +16,12 @@ export const orderSlice = createSlice({
                 let indexOfId: number;
                 indexOfId = Object.keys(action.payload).indexOf('id');
 
-                let id : String = Object.values(action.payload)[indexOfId] as String
+                let id: String = Object.values(action.payload)[indexOfId] as String
                 state.dishes.map((item: item) => {
                     let indexOfIdItem: number;
                     let dishItem = JSON.parse(JSON.stringify(item.Dish));
                     indexOfIdItem = Object.keys(dishItem).indexOf('id');
-                    let idItem : String = Object.values(dishItem)[indexOfIdItem] as String
+                    let idItem: String = Object.values(dishItem)[indexOfIdItem] as String
                     if (idItem === id) {
                         item.Quantity += 1;
                         isCreated = true;
@@ -35,6 +35,12 @@ export const orderSlice = createSlice({
                     }
                     state.dishes.push(item)
                 }
+                localStorage.setItem("order", JSON.stringify(state.dishes));
+            }
+        },
+        loadOrderLocalStorage(state) {
+            if (localStorage.getItem("order") !== null) {
+                state.dishes = JSON.parse(localStorage.getItem("order")!);
             }
         },
     },
@@ -52,7 +58,7 @@ export const orderSlice = createSlice({
 
 export default orderSlice.reducer;
 
-export const { addToOrder } = orderSlice.actions;
+export const { addToOrder, loadOrderLocalStorage } = orderSlice.actions;
 
 export const SelectOrder = (state: RootState) => {
     return state.currentOrder
